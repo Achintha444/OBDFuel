@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:left="50dp">
+    <item android:left="50dp">
         <shape android:shape="rectangle">
-            <gradient
-                android:startColor="@color/purple_200"
-                android:centerColor="@color/white_prurple"
-                android:endColor="@color/white_prurple"
-                android:centerX="40%"
-                android:angle="-45"/>
+            <gradient android:angle="-45" android:centerColor="@color/white_prurple" android:centerX="40%" android:endColor="@color/white_prurple" android:startColor="@color/purple_200" />
         </shape>
     </item>
 </selector>

@@ -1,10 +1,12 @@
 package com.mtdaps.obdfuel;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-
-import android.os.Bundle;
-import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,8 +17,18 @@ public class MainActivity extends AppCompatActivity {
 
         // set the theme to Light
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
+        // hide the action bar
         getSupportActionBar().hide();
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(MainActivity.this, BluetoothActivity.class);
+                startActivity(intent,savedInstanceState);
+                finish();
+            }
+        }, 2000);
 
 
     }
