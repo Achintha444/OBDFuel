@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         // hide the action bar
         getSupportActionBar().hide();
 
+        // Open bluetooth activity
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override

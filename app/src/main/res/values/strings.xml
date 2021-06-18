@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">OBDFuel</string>
+    <string name="bluetooth_activity_name">Select a OBD Device</string>
 </resources>
