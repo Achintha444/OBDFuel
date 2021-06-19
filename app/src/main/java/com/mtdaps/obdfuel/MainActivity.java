@@ -8,6 +8,8 @@ import android.os.Looper;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.mtdaps.obdfuel.activities.BluetoothActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
