@@ -1,6 +1,7 @@
 package com.mtdaps.obdfuel.activities;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,23 +14,44 @@ import com.mtdaps.obdfuel.R;
 import com.mtdaps.obdfuel.util.ActivityInterface;
 import com.mtdaps.obdfuel.util.UiUtil;
 
-public class BluetoothActivity extends AppCompatActivity implements ActivityInterface {
-    FloatingActionButton bluetoothButton;
+import java.util.Set;
 
-    private static final int REQUEST_ENABLE_BT = 1;
+public class BluetoothActivity extends AppCompatActivity implements ActivityInterface {
+    // UI Elements
+    FloatingActionButton bluetoothButton;
+    ConstraintLayout layout;
+
+    // Others
+    BluetoothAdapter bluetoothAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth);
-        setup();
 
         // hide the action bar
         getSupportActionBar().hide();
 
-        ConstraintLayout layout = findViewById(R.id.parent_layout);
+        setup();
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        connectBluetooth();
+    }
 
-        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    @Override
+    public void setup() {
+        bluetoothButton = findViewById(R.id.bluetoothButton);
+        layout = findViewById(R.id.parent_layout);
+    }
+
+/*
+    private void setOnClickBluetoothButton(){
+
+    }*/
+
+    /**
+     * Initially Connect Bluetooth
+     */
+    private void connectBluetooth() {
         if (bluetoothAdapter == null) {
             UiUtil.showErrorSnackbar(layout, this, "Bluetooth Not Available");
         } else {
@@ -44,12 +66,15 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
                     }
                 }
             });
-
         }
     }
 
-    @Override
-    public void setup() {
-        bluetoothButton = findViewById(R.id.bluetoothButton);
+    /**
+     *
+     * @return Set of paired devices
+     */
+    private Set getPairedDevices(){
+        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+        return pairedDevices;
     }
 }
