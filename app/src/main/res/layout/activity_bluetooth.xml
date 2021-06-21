@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.BluetoothActivity">
+    tools:context=".activities.bluetooth.BluetoothActivity">
 
     <TextView
         android:id="@+id/textView6"
@@ -43,64 +49,23 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/nunito"
         android:letterSpacing="0.02"
-        android:text="Connected Devices"
+        android:text="Select your OBD Device"
         android:textColor="@color/black_purple"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="112dp"
-        android:fontFamily="@font/nunito"
-        android:letterSpacing="0.02"
-        android:text="Paired Devices"
-        android:textColor="@color/cardview_dark_background"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
-
-    <TextView
         android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="68dp"
-        android:fontFamily="@font/nunito"
-        android:letterSpacing="0.02"
-        android:text="Paired Devices"
-        android:textColor="@color/cardview_dark_background"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
-
-    <TextView
-        android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/nunito"
         android:letterSpacing="0.02"
-        android:text="Available Devices"
+        android:text="Paired Devices"
         android:textColor="@color/cardview_dark_background"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:fontFamily="@font/nunito_light"
-        android:letterSpacing="0.02"
-        android:text="Select your OBD Device"
-        android:textColor="@color/cardview_dark_background"
-        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -157,7 +122,7 @@
 
     <View
         android:id="@+id/divider"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="24dp"
         android:background="?android:attr/listDivider"
@@ -165,20 +130,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bluetoothButton" />
 
-    <Button
-        android:id="@+id/button"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pairedBluetoothDeivces"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
-        android:backgroundTint="@color/purple_700"
-        android:capitalize="none"
-        android:fontFamily="@font/nunito_semibold"
-        android:text="Add OBD Device"
-        android:textAllCaps="false"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        android:layout_height="417dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
