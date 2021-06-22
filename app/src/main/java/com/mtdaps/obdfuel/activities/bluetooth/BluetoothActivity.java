@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -29,12 +32,14 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
     // UI Elements
     private FloatingActionButton bluetoothButton;
     private ConstraintLayout layout;
-    private RecyclerView pairedBluetoothDeivces;
-    private RecyclerView discoveredBluetoothDevices;
+    private RecyclerView pairedBluetoothDeivces, discoveredBluetoothDevices;
+    private Button discoverDevicesButton;
+    private TextView selectYourOBDDevices, pairedDevices, availableDevices;
+
 
     // Others
     private BluetoothAdapter bluetoothAdapter;
-    private ArrayList<BluetoothDevice> discorverdDevices = new ArrayList<>();
+    private final ArrayList<BluetoothDevice> discorverdDevices = new ArrayList<>();
 
     // Create a BroadcastReceiver for ACTION_FOUND.
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -52,24 +57,22 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
             }
         }
     };
+    private BluetoothDevicesRecycleViewAdapter bluetoothDevicesRecycleViewAdapter;
+    private BluetoothDevicesRecycleViewAdapter discoverBluetoothDevicesRecycleViewAdapter;
     /**
      * used to show message after bluetooth is connected
      */
-    private ActivityResultLauncher<Intent> connectBluetoothLauncher = registerForActivityResult(
+    private final ActivityResultLauncher<Intent> connectBluetoothLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == RESULT_OK) {
                     Toast.makeText(getApplicationContext(), "Bluetooth is Enabled", Toast.LENGTH_LONG).show();
                     getPairedDevices();
-                    discoverDevices();
+                    switchVisiblityOnBluetoothAvailablity(View.VISIBLE);
                 } else {
                     Toast.makeText(getApplicationContext(), "Bluetooth is not Enabled", Toast.LENGTH_LONG).show();
                 }
             });
-
-    private BluetoothDevicesRecycleViewAdapter bluetoothDevicesRecycleViewAdapter;
-    private BluetoothDevicesRecycleViewAdapter discoverBluetoothDevicesRecycleViewAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,8 +102,8 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
 
         if (bluetoothAdapter.isEnabled()) {
             getPairedDevices();
-            discoverDevices();
-            discoverBluetoothDevicesRecycleViewAdapter.setBluetoothDevices(discorverdDevices);
+        } else{
+            switchVisiblityOnBluetoothAvailablity(View.GONE);
         }
 
 
@@ -112,6 +115,26 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
         layout = findViewById(R.id.parent_layout);
         pairedBluetoothDeivces = findViewById(R.id.pairedBluetoothDeivces);
         discoveredBluetoothDevices = findViewById(R.id.discoveredBluetoothDevices);
+        discoverDevicesButton = findViewById(R.id.discoverDevicesButton);
+        selectYourOBDDevices = findViewById(R.id.selectYourOBDDevice);
+        pairedDevices = findViewById(R.id.pairedDevices);
+        availableDevices = findViewById(R.id.availableDevices);
+
+        discoverDevicesButtonOnClick();
+    }
+
+    /**
+     *
+     * @param  visiblity
+     *
+     * Used to switch visibility of elements on availablity of bluetooth
+     */
+    private void switchVisiblityOnBluetoothAvailablity(int visiblity) {
+        pairedBluetoothDeivces.setVisibility(visiblity);
+        discoverDevicesButton.setVisibility(visiblity);
+        selectYourOBDDevices.setVisibility(visiblity);
+        pairedDevices.setVisibility(visiblity);
+        availableDevices.setVisibility(visiblity);
     }
 
 
@@ -166,6 +189,15 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(receiver, filter);
         discoverBluetoothDevicesRecycleViewAdapter.setBluetoothDevices(discorverdDevices);
+    }
+
+    private void discoverDevicesButtonOnClick() {
+        discoverDevicesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                discoverDevices();
+            }
+        });
     }
 
     @Override
