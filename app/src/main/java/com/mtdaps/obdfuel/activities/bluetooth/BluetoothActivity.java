@@ -30,10 +30,12 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
     private FloatingActionButton bluetoothButton;
     private ConstraintLayout layout;
     private RecyclerView pairedBluetoothDeivces;
+    private RecyclerView discoveredBluetoothDevices;
 
     // Others
     private BluetoothAdapter bluetoothAdapter;
-    private ArrayList<BluetoothDevice> discorverdDevices;
+    private ArrayList<BluetoothDevice> discorverdDevices = new ArrayList<>();
+
     // Create a BroadcastReceiver for ACTION_FOUND.
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -66,6 +68,7 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
             });
 
     private BluetoothDevicesRecycleViewAdapter bluetoothDevicesRecycleViewAdapter;
+    private BluetoothDevicesRecycleViewAdapter discoverBluetoothDevicesRecycleViewAdapter;
 
 
     @Override
@@ -77,12 +80,19 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
         getSupportActionBar().hide();
 
         setup();
+
+        // Paired Devices Recylcer View
         bluetoothDevicesRecycleViewAdapter = new BluetoothDevicesRecycleViewAdapter(this);
         pairedBluetoothDeivces.setAdapter(bluetoothDevicesRecycleViewAdapter);
         pairedBluetoothDeivces.setLayoutManager(new LinearLayoutManager(this));
-
         ArrayList<BluetoothDevice> emptyArrayList = new ArrayList<>();
         bluetoothDevicesRecycleViewAdapter.setBluetoothDevices(emptyArrayList);
+
+        // Discover Devices Recylcer View
+        discoverBluetoothDevicesRecycleViewAdapter = new BluetoothDevicesRecycleViewAdapter(this);
+        discoveredBluetoothDevices.setAdapter(bluetoothDevicesRecycleViewAdapter);
+        discoveredBluetoothDevices.setLayoutManager(new LinearLayoutManager(this));
+        discoverBluetoothDevicesRecycleViewAdapter.setBluetoothDevices(discorverdDevices);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         connectBluetooth();
@@ -90,6 +100,7 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
         if (bluetoothAdapter.isEnabled()) {
             getPairedDevices();
             discoverDevices();
+            discoverBluetoothDevicesRecycleViewAdapter.setBluetoothDevices(discorverdDevices);
         }
 
 
@@ -100,6 +111,7 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
         bluetoothButton = findViewById(R.id.bluetoothButton);
         layout = findViewById(R.id.parent_layout);
         pairedBluetoothDeivces = findViewById(R.id.pairedBluetoothDeivces);
+        discoveredBluetoothDevices = findViewById(R.id.discoveredBluetoothDevices);
     }
 
 
@@ -153,6 +165,7 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
     private void discoverDevices() {
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(receiver, filter);
+        discoverBluetoothDevicesRecycleViewAdapter.setBluetoothDevices(discorverdDevices);
     }
 
     @Override
