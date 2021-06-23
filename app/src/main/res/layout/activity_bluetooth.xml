@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="@color/purple_700">
@@ -9,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/parent_layout"
         android:layout_width="match_parent"
-        android:layout_height="1000dp"
+        android:layout_height="match_parent"
         tools:context=".activities.bluetooth.BluetoothActivity">
 
         <TextView
@@ -63,8 +64,9 @@
             android:fontFamily="@font/nunito_bold"
             android:letterSpacing="0.02"
             android:text="Paired Devices"
+            android:textAllCaps="true"
             android:textColor="@color/cardview_dark_background"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/selectYourOBDDevice" />
 
@@ -76,8 +78,9 @@
             android:fontFamily="@font/nunito_bold"
             android:letterSpacing="0.02"
             android:text="Available Devices"
+            android:textAllCaps="true"
             android:textColor="@color/cardview_dark_background"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toBottomOf="@+id/pairedBluetoothDeivces" />
 
@@ -93,14 +96,15 @@
             android:textSize="14sp"
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/availableDevices" />
+            app:layout_constraintTop_toBottomOf="@+id/loadingText" />
 
         <TextView
-            android:id="@+id/noAvailableText"
+            android:id="@+id/noAvailableText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/nunito"
             android:letterSpacing="0.02"
             android:text="Try Again"
@@ -108,7 +112,7 @@
             android:textSize="14sp"
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toBottomOf="@+id/noAvailableText1" />
 
@@ -116,19 +120,15 @@
             android:id="@+id/noPairedDevices"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:fontFamily="@font/nunito"
             android:letterSpacing="0.02"
             android:text="No Paired Devices"
             android:textColor="@color/black_purple"
             android:textSize="14sp"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/availableDevices"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintHorizontal_bias="0.543"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/pairedDevices" />
+            app:layout_constraintTop_toBottomOf="@+id/loadingText" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
@@ -201,6 +201,7 @@
             android:nestedScrollingEnabled="false"
             android:visibility="visible"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toBottomOf="@+id/pairedDevices" />
 
@@ -209,31 +210,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
             android:nestedScrollingEnabled="false"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/availableDevices" />
+            app:layout_constraintTop_toBottomOf="@+id/noAvailableText2" />
 
         <Button
             android:id="@+id/discoverDevicesButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:backgroundTint="@color/purple_700"
             android:fontFamily="@font/nunito_semibold"
             android:text="Discover Devices"
             android:textColor="@color/white_prurple"
             android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/noAvailableText" />
+            app:layout_constraintTop_toBottomOf="@+id/discoveredBluetoothDevices" />
 
         <ProgressBar
             android:id="@+id/loading"
