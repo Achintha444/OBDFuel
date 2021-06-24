@@ -1,4 +1,4 @@
-package com.mtdaps.obdfuel.activities.bluetooth1;
+package com.mtdaps.obdfuel.home;
 
 import androidx.appcompat.app.AppCompatActivity;
 

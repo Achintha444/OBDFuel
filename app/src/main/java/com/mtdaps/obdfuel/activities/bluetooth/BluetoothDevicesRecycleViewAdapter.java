@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -34,7 +35,6 @@ public class BluetoothDevicesRecycleViewAdapter extends RecyclerView.Adapter<Blu
 
     @Override
     public void onBindViewHolder(@NonNull BluetoothDevicesRecycleViewAdapter.ViewHolder holder, final int position) {
-
         holder.deviceName.setText(bluetoothDevices.get(position).getName());
     }
 
@@ -50,6 +50,7 @@ public class BluetoothDevicesRecycleViewAdapter extends RecyclerView.Adapter<Blu
         notifyDataSetChanged();
     }
 
+
     /*
      * Hold Every Item in the Recycle View contact_list_item.xml
      */
@@ -60,8 +61,8 @@ public class BluetoothDevicesRecycleViewAdapter extends RecyclerView.Adapter<Blu
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             setup();
+            itemOnClickListner(itemView);
         }
 
         @Override
@@ -69,6 +70,15 @@ public class BluetoothDevicesRecycleViewAdapter extends RecyclerView.Adapter<Blu
             parent = itemView.findViewById(R.id.parent);
             deviceName = itemView.findViewById(R.id.deivceName);
             connect = itemView.findViewById(R.id.connect);
+        }
+
+        private void itemOnClickListner(View item){
+            item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(item.getContext(), deviceName.getText().toString(), Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
 }

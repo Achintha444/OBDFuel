@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/logo_5"
         android:supportsRtl="true"
         android:theme="@style/Theme.OBDFuel">
-        <activity android:name=".activities.bluetooth1.HomeActivity"></activity>
+        <activity android:name=".home.HomeActivity"></activity>
         <activity
             android:name=".activities.bluetooth.BluetoothActivity"
             android:label="BluetoothActivity"

@@ -49,11 +49,6 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
     private Button discoverDevicesButton;
     private TextView selectYourOBDDevices, pairedDevices, availableDevices, noPairedDevices, loadingText, noAvailableText1, noAvailableText2;
     private ProgressBar loading;
-    private AlertDialog dialog;
-    private AlertDialog.Builder dialogBuilder;
-
-    //Other
-
     // Create a BroadcastReceiver for ACTION_FOUND.
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -97,7 +92,10 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
             }
         }
     };
+    private AlertDialog dialog;
 
+    //Other
+    private AlertDialog.Builder dialogBuilder;
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothDevicesRecycleViewAdapter bluetoothDevicesRecycleViewAdapter, discoverBluetoothDevicesRecycleViewAdapter;
 
@@ -254,6 +252,11 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
             registerReceiver(receiver, filter);
             filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
             registerReceiver(receiver, filter);
+
+            // To clear the items in the ArrayList before starting the process
+            if (discorverdDevices.size() != 0) {
+                discorverdDevices.clear();
+            }
 
             boolean checkDiscoveryWorking = bluetoothAdapter.startDiscovery();
 
