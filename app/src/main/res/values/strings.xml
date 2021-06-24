@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">OBDFuel</string>
     <string name="bluetooth_activity_name">Select OBD Device</string>
+
+    <!--Toast Messages of "Select OBD Device Interface"-->
+    <string name="bluetooth_enabled">Bluetooth is Enabled</string>
+    <string name="bluetooth_not_enabled">Bluetooth is Not Enabled</string>
+    <string name="bluetooth_discovery_failed">Bluetooth Discovering Devices Failed, Try Again.</string>
 </resources>

@@ -12,6 +12,7 @@ import java.io.IOException;
 public class OBDDeviceConnectThread extends Thread{
     private final BluetoothSocket mmSocket;
     private final BluetoothDevice mmDevice;
+    private static final BluetoothAdapter bluetoothAdapter= BluetoothAdapter.getDefaultAdapter();
 
     protected OBDDeviceConnectThread(BluetoothDevice obdDevice) {
         // Use a temporary object that is later assigned to mmSocket
@@ -22,7 +23,7 @@ public class OBDDeviceConnectThread extends Thread{
         try {
             // Get a BluetoothSocket to connect with the given BluetoothDevice.
             // MY_UUID is the app's UUID string, also used in the server code.
-            tmp = obdDevice.createRfcommSocketToServiceRecord(UiUtil.DEVICE_UUID);
+            tmp = mmDevice.createRfcommSocketToServiceRecord(UiUtil.DEVICE_UUID);
         } catch (IOException e) {
             Log.e("OBDConnectionError", "Socket's create() method failed", e);
         }
@@ -30,8 +31,11 @@ public class OBDDeviceConnectThread extends Thread{
     }
 
     public void run() {
-        // Cancel discovery because it otherwise slows down the connection.
-        BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
+
+        if(bluetoothAdapter.isDiscovering()){
+            // Cancel discovery because it otherwise slows down the connection.
+            BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
+        }
 
         try {
             // Connect to the remote device through the socket. This call blocks

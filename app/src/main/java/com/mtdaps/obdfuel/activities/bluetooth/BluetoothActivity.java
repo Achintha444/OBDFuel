@@ -49,11 +49,17 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
     private Button discoverDevicesButton;
     private TextView selectYourOBDDevices, pairedDevices, availableDevices, noPairedDevices, loadingText, noAvailableText1, noAvailableText2;
     private ProgressBar loading;
+    private AlertDialog dialog;
+    private AlertDialog.Builder dialogBuilder;
+
+    //Other
+
     // Create a BroadcastReceiver for ACTION_FOUND.
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             Log.println(Log.DEBUG, "BluetoothDiscoveryDebug", action);
+
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 // Discovery has found a device. Get the BluetoothDevice
                 // object and its info from the Intent.
@@ -85,17 +91,16 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
                     noAvailableText2.setVisibility(View.VISIBLE);
                     discoverDevicesButton.setVisibility(View.VISIBLE);
                     scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
-                } else{
+                } else {
                     discoverDevicesButton.setVisibility(View.VISIBLE);
                 }
             }
         }
     };
-    private AlertDialog dialog;
-    private AlertDialog.Builder dialogBuilder;
-    // Others
+
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothDevicesRecycleViewAdapter bluetoothDevicesRecycleViewAdapter, discoverBluetoothDevicesRecycleViewAdapter;
+
     /**
      * used to show message after bluetooth is connected
      */
@@ -103,13 +108,11 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == RESULT_OK) {
-                    Toast.makeText(getApplicationContext(), "Bluetooth is Enabled", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.bluetooth_enabled, Toast.LENGTH_LONG).show();
                     getPairedDevices();
                     scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
-
-                    //switchVisiblityOnBluetoothAvailablity(View.VISIBLE);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Bluetooth is not Enabled", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.bluetooth_not_enabled, Toast.LENGTH_LONG).show();
                 }
             });
     private LocationManager locationManager;
@@ -123,19 +126,6 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
         getSupportActionBar().hide();
 
         setup();
-
-        // Paired Devices Recylcer View
-        bluetoothDevicesRecycleViewAdapter = new BluetoothDevicesRecycleViewAdapter(this);
-        pairedBluetoothDeivces.setAdapter(bluetoothDevicesRecycleViewAdapter);
-        pairedBluetoothDeivces.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<BluetoothDevice> emptyArrayList = new ArrayList<>();
-        bluetoothDevicesRecycleViewAdapter.setBluetoothDevices(emptyArrayList);
-
-        // Discover Devices Recylcer View
-        discoverBluetoothDevicesRecycleViewAdapter = new BluetoothDevicesRecycleViewAdapter(this);
-        discoveredBluetoothDevices.setAdapter(discoverBluetoothDevicesRecycleViewAdapter);
-        discoveredBluetoothDevices.setLayoutManager(new LinearLayoutManager(this));
-        discoverBluetoothDevicesRecycleViewAdapter.setBluetoothDevices(discorverdDevices);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         connectBluetooth();
@@ -167,6 +157,18 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
         loadingText = findViewById(R.id.loadingText);
         loading = findViewById(R.id.loading);
 
+        // Paired Devices Recylcer View
+        bluetoothDevicesRecycleViewAdapter = new BluetoothDevicesRecycleViewAdapter(this);
+        pairedBluetoothDeivces.setAdapter(bluetoothDevicesRecycleViewAdapter);
+        pairedBluetoothDeivces.setLayoutManager(new LinearLayoutManager(this));
+        ArrayList<BluetoothDevice> emptyArrayList = new ArrayList<>();
+        bluetoothDevicesRecycleViewAdapter.setBluetoothDevices(emptyArrayList);
+
+        // Discover Devices Recylcer View
+        discoverBluetoothDevicesRecycleViewAdapter = new BluetoothDevicesRecycleViewAdapter(this);
+        discoveredBluetoothDevices.setAdapter(discoverBluetoothDevicesRecycleViewAdapter);
+        discoveredBluetoothDevices.setLayoutManager(new LinearLayoutManager(this));
+        discoverBluetoothDevicesRecycleViewAdapter.setBluetoothDevices(discorverdDevices);
 
         discoverDevicesButtonOnClick();
     }
@@ -198,7 +200,7 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
                     //startActivity(chooserIntent);
                     connectBluetoothLauncher.launch(chooserIntent);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Bluetooth is Enabled", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.bluetooth_enabled, Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -258,11 +260,11 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
             Log.println(Log.DEBUG, "BlUETOOTHDiscoveryError", Boolean.toString(checkDiscoveryWorking));
 
             if (!checkDiscoveryWorking) {
-                Toast.makeText(this, "Bluetooth Discovering Devices Failed, Try Again.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "bluetooth_discovery_failed", Toast.LENGTH_LONG).show();
             }
 
         } else {
-            Toast.makeText(this, "Bluetooth is not Enabled", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.bluetooth_not_enabled, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -287,6 +289,7 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
                         .setCancelable(false);
                 dialog = dialogBuilder.create();
 
+                // Used to check if Location is on
                 Thread thread = new Thread() {
                     @Override
                     public void run() {
@@ -312,7 +315,7 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
             }
 
         } catch (Exception ex) {
-            Toast.makeText(this, "Bluetooth Discovering Devices Failed, Try Again.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "bluetooth_discovery_failed", Toast.LENGTH_LONG).show();
         }
 
 
