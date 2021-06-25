@@ -6,4 +6,7 @@
     <string name="bluetooth_enabled">Bluetooth is Enabled</string>
     <string name="bluetooth_not_enabled">Bluetooth is Not Enabled</string>
     <string name="bluetooth_discovery_failed">Bluetooth Discovering Devices Failed, Try Again.</string>
+
+    <!-- Parcelable String that Passes Socket to Home Activity-->
+    <string name="OBD_BLUETOOTH_SOCKET">OBD_BLUETOOTH_SOCKET</string>
 </resources>

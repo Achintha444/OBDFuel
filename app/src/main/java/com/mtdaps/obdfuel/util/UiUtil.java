@@ -18,6 +18,7 @@ import java.util.UUID;
 public class UiUtil {
 
     public static final UUID DEVICE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    public static final String OBD_BLUETOOTH_SOCKET = "OBD_BLUETOOTH_SOCKET";
 
     public static void showSnackbar(ViewGroup layout, Context context, String text) {
         showSnackbar(layout, context, text, R.color.purple_500, Snackbar.LENGTH_SHORT);

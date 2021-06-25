@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mtdaps.obdfuel.R;
 import com.mtdaps.obdfuel.util.ActivityInterface;
+import com.mtdaps.obdfuel.util.OBDDeviceConnectThread;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,7 @@ public class BluetoothDevicesRecycleViewAdapter extends RecyclerView.Adapter<Blu
     @Override
     public void onBindViewHolder(@NonNull BluetoothDevicesRecycleViewAdapter.ViewHolder holder, final int position) {
         holder.deviceName.setText(bluetoothDevices.get(position).getName());
+        holder.setDevice(bluetoothDevices.get(position));
     }
 
     @Override
@@ -57,6 +59,7 @@ public class BluetoothDevicesRecycleViewAdapter extends RecyclerView.Adapter<Blu
     public class ViewHolder extends RecyclerView.ViewHolder implements ActivityInterface {
         private ConstraintLayout parent;
         private TextView deviceName, connect;
+        private BluetoothDevice device;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -72,13 +75,19 @@ public class BluetoothDevicesRecycleViewAdapter extends RecyclerView.Adapter<Blu
             connect = itemView.findViewById(R.id.connect);
         }
 
-        private void itemOnClickListner(View item){
-            item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(item.getContext(), deviceName.getText().toString(), Toast.LENGTH_LONG).show();
+        private void itemOnClickListner(View item) {
+            item.setOnClickListener(view -> {
+                OBDDeviceConnectThread obdDeviceConnectThread = new OBDDeviceConnectThread(device);
+                try {
+                    obdDeviceConnectThread.run();
+                } catch (Exception e) {
+                    Toast.makeText(item.getContext(), "Connection Failed, Try Again.", Toast.LENGTH_LONG).show();
                 }
             });
+        }
+
+        public void setDevice(BluetoothDevice device) {
+            this.device = device;
         }
     }
 }

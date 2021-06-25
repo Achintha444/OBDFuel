@@ -1,4 +1,4 @@
-package com.mtdaps.obdfuel.activities.bluetooth;
+package com.mtdaps.obdfuel.util;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -34,7 +34,7 @@ public class OBDDeviceConnectThread extends Thread{
 
         if(bluetoothAdapter.isDiscovering()){
             // Cancel discovery because it otherwise slows down the connection.
-            BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
+            bluetoothAdapter.cancelDiscovery();
         }
 
         try {
