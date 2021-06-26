@@ -2,6 +2,7 @@ package com.mtdaps.obdfuel.activities.bluetooth;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,9 +78,10 @@ public class BluetoothDevicesRecycleViewAdapter extends RecyclerView.Adapter<Blu
 
         private void itemOnClickListner(View item) {
             item.setOnClickListener(view -> {
-                OBDDeviceConnectThread obdDeviceConnectThread = new OBDDeviceConnectThread(device);
+                OBDDeviceConnectThread obdDeviceConnectThread = new OBDDeviceConnectThread(device,itemView.getContext());
                 try {
-                    obdDeviceConnectThread.run();
+                    obdDeviceConnectThread.start();
+                    Log.println(Log.DEBUG, "Connecting", "Connecting Thread Running");
                 } catch (Exception e) {
                     Toast.makeText(item.getContext(), "Connection Failed, Try Again.", Toast.LENGTH_LONG).show();
                 }

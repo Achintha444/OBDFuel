@@ -10,8 +10,6 @@ import com.mtdaps.obdfuel.util.UiUtil;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private final BluetoothSocket obdBluetoothSocket = getIntent().getParcelableExtra(UiUtil.OBD_BLUETOOTH_SOCKET);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

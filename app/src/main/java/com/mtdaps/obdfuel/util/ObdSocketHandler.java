@@ -1,6 +1,7 @@
 package com.mtdaps.obdfuel.util;
 
 import android.bluetooth.BluetoothSocket;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,10 +20,9 @@ public class ObdSocketHandler {
 
     /**
      * Used to return the singleton ObdSocketHandler object
-     * @param obdSocket
      * @return obdSocketHandler
      */
-    public static ObdSocketHandler getDefaultObdSocketHandler(BluetoothSocket obdSocket){
+    public static ObdSocketHandler getDefaultObdSocketHandler(){
         if (obdSocketHandler == null)
         {
             //synchronized block to remove overhead
@@ -39,7 +39,8 @@ public class ObdSocketHandler {
         return obdSocketHandler;
     }
 
-    public void setObdSocket(BluetoothSocket obdSocket) {
+    protected void setObdSocket(BluetoothSocket obdSocket) {
+        Log.println(Log.INFO, "ObdSocketHandler", "Socket is set");
         this.obdSocket = obdSocket;
     }
 
