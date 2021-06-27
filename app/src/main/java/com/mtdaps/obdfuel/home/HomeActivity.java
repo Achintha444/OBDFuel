@@ -14,5 +14,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        UiUtil.showSnackbar(findViewById(R.id.parent_layout),getBaseContext(),"OBD Connected");
     }
 }

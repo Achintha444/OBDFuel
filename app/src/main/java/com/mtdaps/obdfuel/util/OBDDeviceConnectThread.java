@@ -17,11 +17,13 @@ import static androidx.core.content.ContextCompat.startActivity;
 
 public class OBDDeviceConnectThread extends Thread {
     private static final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    private static OBDDeviceConnectThreadState state;
+    private static OBDDeviceConnectThread obdDeviceConnectThread;
     private final BluetoothDevice mmDevice;
     private final Context context;
     private BluetoothSocket mmSocket;
 
-    public OBDDeviceConnectThread(BluetoothDevice obdDevice, Context context) {
+    private OBDDeviceConnectThread(BluetoothDevice obdDevice, Context context) {
         this.context = context;
         // Use a temporary object that is later assigned to mmSocket
         // because mmSocket is final.
@@ -43,52 +45,79 @@ public class OBDDeviceConnectThread extends Thread {
         }*/
     }
 
-    public void run() {
-
-        //if (bluetoothAdapter.isDiscovering()) {
-        // Cancel discovery because it otherwise slows down the connection.
-        bluetoothAdapter.cancelDiscovery();
-        //}
-
-        try {
-            // Connect to the remote device through the socket. This call blocks
-            // until it succeeds or throws an exception.
-            mmSocket.connect();
-        } catch (IOException connectException) {
-            connectException.printStackTrace();
-            Log.e("Try Again", "trying fallback...");
-            try {
-                try {
-                    mmSocket = (BluetoothSocket) mmDevice.getClass().getMethod("createRfcommSocket", int.class).invoke(mmDevice, 2);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                    cancel();
-                    return;
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                    cancel();
-                    return;
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                    cancel();
-                    return;
+    /**
+     * Used to return the singleton ObdSocketHandler object
+     *
+     * @return obdSocketHandler
+     */
+    public static OBDDeviceConnectThread getDefaultOBDDeviceConnectThread(BluetoothDevice obdDevice, Context context) {
+        if (obdDeviceConnectThread == null) {
+            //synchronized block to remove overhead
+            synchronized (ObdSocketHandler.class) {
+                if (obdDeviceConnectThread == null) {
+                    // if instance is null, initialize
+                    obdDeviceConnectThread = new OBDDeviceConnectThread(obdDevice, context);
                 }
-                mmSocket.connect();
 
-                Log.e("Try Again", "Connected");
-            } catch (IOException e) {
-                Log.e("Try Again", "Failed Again...");
-                e.printStackTrace();
-                cancel();
-                return;
             }
         }
+        return obdDeviceConnectThread;
+    }
 
-        // The connection attempt succeeded. Perform work associated with
-        // the connection in a separate thread.
-        ObdSocketHandler.getDefaultObdSocketHandler().setObdSocket(mmSocket);
-        Intent homeIntent = new Intent(context, HomeActivity.class);
-        startActivity(context, homeIntent, null);
+    public void run() {
+
+        if ((getOBDDeviceConnectThreadState() != OBDDeviceConnectThreadState.WAITING) || (getOBDDeviceConnectThreadState() != OBDDeviceConnectThreadState.CONNECTED)) {
+            //if (bluetoothAdapter.isDiscovering()) {
+            // Cancel discovery because it otherwise slows down the connection.
+            changeState(OBDDeviceConnectThreadState.WAITING);
+            bluetoothAdapter.cancelDiscovery();
+            //}
+
+            try {
+                // Connect to the remote device through the socket. This call blocks
+                // until it succeeds or throws an exception.
+                mmSocket.connect();
+            } catch (IOException connectException) {
+                connectException.printStackTrace();
+                Log.e("Try Again", "trying fallback...");
+                try {
+                    try {
+                        mmSocket = (BluetoothSocket) mmDevice.getClass().getMethod("createRfcommSocket", int.class).invoke(mmDevice, 2);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        cancel();
+                        changeState(OBDDeviceConnectThreadState.FAILED);
+                        return;
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                        cancel();
+                        changeState(OBDDeviceConnectThreadState.FAILED);
+                        return;
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                        cancel();
+                        changeState(OBDDeviceConnectThreadState.FAILED);
+                        return;
+                    }
+                    mmSocket.connect();
+
+                    Log.e("Try Again", "Connected");
+                } catch (IOException e) {
+                    Log.e("Try Again", "Failed Again...");
+                    e.printStackTrace();
+                    cancel();
+                    changeState(OBDDeviceConnectThreadState.FAILED);
+                    return;
+                }
+            }
+
+            // The connection attempt succeeded. Perform work associated with
+            // the connection in a separate thread.
+            ObdSocketHandler.getDefaultObdSocketHandler().setObdSocket(mmSocket);
+            this.changeState(OBDDeviceConnectThreadState.CONNECTED);
+            Intent homeIntent = new Intent(context, HomeActivity.class);
+            startActivity(context, homeIntent, null);
+        }
     }
 
     // Closes the client socket and causes the thread to finish.
@@ -97,6 +126,10 @@ public class OBDDeviceConnectThread extends Thread {
             mmSocket.close();
         } catch (IOException e) {
             Log.e("OBDConnectionError", "Could not close the client socket", e);
+        }
+        if(getOBDDeviceConnectThreadState()==OBDDeviceConnectThreadState.CONNECTED){
+            changeState(OBDDeviceConnectThreadState.FREE);
+            obdDeviceConnectThread = null;
         }
         return;
     }
@@ -112,4 +145,13 @@ public class OBDDeviceConnectThread extends Thread {
         }
         return device.createRfcommSocketToServiceRecord(UiUtil.DEVICE_UUID);
     }
+
+    private void changeState(OBDDeviceConnectThreadState state) {
+        OBDDeviceConnectThread.state = state;
+    }
+
+    public OBDDeviceConnectThreadState getOBDDeviceConnectThreadState() {
+        return OBDDeviceConnectThread.state;
+    }
 }
+

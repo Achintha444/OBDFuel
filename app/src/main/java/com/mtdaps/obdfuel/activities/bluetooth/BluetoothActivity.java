@@ -189,7 +189,7 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
      */
     private void connectBluetooth() {
         if (bluetoothAdapter == null) {
-            UiUtil.showErrorSnackbar(layout, this, "Bluetooth Not Available");
+            UiUtil.showErrorSnackbar(layout, this, "Bluetooth Not Available").show();
         } else {
             bluetoothButton.setOnClickListener(view -> {
                 if (!bluetoothAdapter.isEnabled()) {
