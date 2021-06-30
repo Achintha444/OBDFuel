@@ -21,4 +21,6 @@
         <item name="textAllCaps">true</item>
         <item name="android:letterSpacing">0.1</item>
     </style>
+
+
 </resources>

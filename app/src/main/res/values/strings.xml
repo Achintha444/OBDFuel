@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">OBDFuel</string>
     <string name="bluetooth_activity_name">Select OBD Device</string>
+    <string name="home_activity_name">OBD Fuel</string>
 
     <!--Toast Messages of "Select OBD Device Interface"-->
     <string name="bluetooth_enabled">Bluetooth is Enabled</string>
@@ -9,4 +10,6 @@
 
     <!-- Parcelable String that Passes Socket to Home Activity-->
     <string name="OBD_BLUETOOTH_SOCKET">OBD_BLUETOOTH_SOCKET</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

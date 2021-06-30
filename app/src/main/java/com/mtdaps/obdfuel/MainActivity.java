@@ -1,5 +1,6 @@
 package com.mtdaps.obdfuel;
 
+import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.mtdaps.obdfuel.activities.bluetooth.BluetoothActivity;
+import com.mtdaps.obdfuel.home.HomeActivity;
 
 public class MainActivity extends AppCompatActivity {
 
