@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
-import com.mtdaps.obdfuel.home.HomeActivity;
+import com.mtdaps.obdfuel.activities.home.activity.HomeActivity;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;

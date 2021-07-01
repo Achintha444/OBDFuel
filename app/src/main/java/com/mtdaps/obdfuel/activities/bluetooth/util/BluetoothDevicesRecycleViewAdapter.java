@@ -1,4 +1,4 @@
-package com.mtdaps.obdfuel.activities.bluetooth;
+package com.mtdaps.obdfuel.activities.bluetooth.util;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;

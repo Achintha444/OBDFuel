@@ -1,4 +1,4 @@
-package com.mtdaps.obdfuel.activities.bluetooth;
+package com.mtdaps.obdfuel.activities.bluetooth.activity;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mtdaps.obdfuel.R;
+import com.mtdaps.obdfuel.activities.bluetooth.util.BluetoothDevicesRecycleViewAdapter;
 import com.mtdaps.obdfuel.util.ActivityInterface;
 import com.mtdaps.obdfuel.util.UiUtil;
 

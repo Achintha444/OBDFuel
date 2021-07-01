@@ -1,24 +1,14 @@
-package com.mtdaps.obdfuel.home;
+package com.mtdaps.obdfuel.activities.home.fragments;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.tabs.TabItem;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.mtdaps.obdfuel.R;
-import com.mtdaps.obdfuel.util.HomeTabAdapter;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Fragement of the Dashbaord

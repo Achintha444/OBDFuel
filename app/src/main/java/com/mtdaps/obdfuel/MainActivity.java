@@ -1,6 +1,5 @@
 package com.mtdaps.obdfuel;
 
-import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,8 +8,7 @@ import android.os.Looper;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.mtdaps.obdfuel.activities.bluetooth.BluetoothActivity;
-import com.mtdaps.obdfuel.home.HomeActivity;
+import com.mtdaps.obdfuel.activities.home.activity.HomeActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(MainActivity.this, BluetoothActivity.class);
+                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(intent,savedInstanceState);
                 finish();
             }

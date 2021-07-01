@@ -1,4 +1,4 @@
-package com.mtdaps.obdfuel.home;
+package com.mtdaps.obdfuel.activities.home.activity;
 
 import android.os.Bundle;
 
@@ -11,7 +11,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.mtdaps.obdfuel.R;
 import com.mtdaps.obdfuel.util.ActivityInterface;
-import com.mtdaps.obdfuel.util.HomeTabAdapter;
+import com.mtdaps.obdfuel.activities.home.util.HomeTabAdapter;
 import com.mtdaps.obdfuel.util.UiUtil;
 
 import java.util.ArrayList;

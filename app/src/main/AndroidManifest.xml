@@ -18,9 +18,9 @@
         android:roundIcon="@mipmap/logo_5"
         android:supportsRtl="true"
         android:theme="@style/Theme.OBDFuel">
-        <activity android:name=".home.HomeActivity"></activity>
+        <activity android:name=".activities.home.activity.HomeActivity"></activity>
         <activity
-            android:name=".activities.bluetooth.BluetoothActivity"
+            android:name=".activities.bluetooth.activity.BluetoothActivity"
             android:label="BluetoothActivity"
             android:launchMode="singleTask" />
         <activity android:name=".MainActivity">

@@ -1,14 +1,12 @@
-package com.mtdaps.obdfuel.util;
+package com.mtdaps.obdfuel.activities.home.util;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.mtdaps.obdfuel.home.DashboardFragment;
-import com.mtdaps.obdfuel.home.SendFragment;
+import com.mtdaps.obdfuel.activities.home.fragments.DashboardFragment;
+import com.mtdaps.obdfuel.activities.home.fragments.SendFragment;
 
 import org.jetbrains.annotations.NotNull;
 

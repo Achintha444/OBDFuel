@@ -1,4 +1,4 @@
-package com.mtdaps.obdfuel.home;
+package com.mtdaps.obdfuel.activities.home.fragments;
 
 import android.os.Bundle;
 
