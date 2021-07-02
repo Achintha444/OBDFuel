@@ -100,6 +100,8 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothDevicesRecycleViewAdapter bluetoothDevicesRecycleViewAdapter, discoverBluetoothDevicesRecycleViewAdapter;
 
+    private Bundle bundle;
+
     /**
      * used to show message after bluetooth is connected
      */
@@ -120,6 +122,8 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth);
+
+        bundle = savedInstanceState;
 
         // hide the action bar
         getSupportActionBar().hide();
@@ -280,19 +284,8 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
 
             if (!isLocationEnabled()) {
                 // notify user
-                dialogBuilder = new AlertDialog.Builder(this)
-                        .setTitle("Enable Location")
-                        .setMessage("Location access is required for Bluetooth Connection.")
-                        .setPositiveButton("Enable Locaiton", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                                Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                startActivity(myIntent);
-                            }
-                        })
-                        .setCancelable(false);
+                dialogBuilder = UiUtil.createWarningAlertDialogBuilder(bundle,this,"Enable Location","Location access is required for Bluetooth Connection.","Enable Locaiton",Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 dialog = dialogBuilder.create();
-
                 // Used to check if Location is on
                 Thread thread = new Thread() {
                     @Override

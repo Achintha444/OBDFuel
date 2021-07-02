@@ -1,6 +1,7 @@
 package com.mtdaps.obdfuel.activities.home.fragments;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,6 +32,8 @@ public class SendFragment extends Fragment implements ActivityInterface {
     private TextInputLayout vehicleName;
     private TextInputEditText vehicleNameEditText;
 
+    private ConnectivityManager connectivityManager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,8 @@ public class SendFragment extends Fragment implements ActivityInterface {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setup();
+
+        connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
     @Override
@@ -85,5 +90,9 @@ public class SendFragment extends Fragment implements ActivityInterface {
 
             }
         });
+    }
+
+    public boolean isInternetAvailable() {
+        return connectivityManager.getActiveNetworkInfo() != null;
     }
 }
