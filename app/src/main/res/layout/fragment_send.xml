@@ -43,6 +43,42 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/vehicleName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textColorHint="@color/cardview_dark_background"
+            app:boxStrokeErrorColor="@color/error"
+            app:errorEnabled="true"
+            app:errorIconTint="@color/error"
+            app:errorTextAppearance="@style/VehicleNameErrorApperance"
+            app:errorTextColor="@color/error"
+            app:hintTextColor="@color/purple_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            app:placeholderTextColor="@color/cardview_dark_background"
+            app:prefixTextColor="@color/cardview_dark_background"
+            app:startIconDrawable="@drawable/ic_sharp_directions_car_24"
+            app:startIconTint="@color/black_purple">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/vehicleNameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/nunito"
+                android:hint="Vehicle Name"
+                android:textColor="@color/black_purple"
+                android:textColorHighlight="@color/purple_200"
+                android:textColorLink="@color/purple_500" />
+        </com.google.android.material.textfield.TextInputLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
