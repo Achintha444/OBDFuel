@@ -2,13 +2,20 @@ package com.mtdaps.obdfuel.activities.home.activity;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
@@ -16,11 +23,17 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.mtdaps.obdfuel.R;
+import com.mtdaps.obdfuel.activities.bluetooth.activity.BluetoothActivity;
 import com.mtdaps.obdfuel.activities.home.util.HomeTabAdapter;
 import com.mtdaps.obdfuel.util.ActivityInterface;
+import com.mtdaps.obdfuel.util.OBDDeviceConnectThread;
 import com.mtdaps.obdfuel.util.UiUtil;
 
+import java.io.IOException;
+
 public class HomeActivity extends AppCompatActivity implements ActivityInterface {
+
+    private Toolbar toolbar;
 
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
@@ -39,12 +52,12 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // hide the action bar
-        getSupportActionBar().hide();
-
         UiUtil.showSnackbar(findViewById(R.id.home_parent_layout), getBaseContext(), "OBD Connected").show();
 
         setup();
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         prepareAdapter(viewPager);
 
@@ -56,10 +69,47 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
         servicesCheckThread();
     }
 
+    /**
+     * Used to inflate the menu that contains disconnect bluetooth
+     *
+     * @param menu
+     * @return true
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.change_device_settings:
+                changeBluetoothDevice();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void changeBluetoothDevice() {
+        try {
+            // this will close the socket, and make OCDDeviceConnectThread FREE
+            OBDDeviceConnectThread.getDefaultOBDDeviceConnectThread().changeOBDDevice();
+            Intent bluetoothIntent = new Intent(this, BluetoothActivity.class);
+            this.startActivity(bluetoothIntent);
+        } catch (IOException e) {
+            Toast.makeText(this, "Could not change device. Try Again", Toast.LENGTH_LONG);
+        }
+    }
+
     @Override
     public void setup() {
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
+        toolbar = findViewById(R.id.bluetoothToolbar);
         flag = true;
     }
 

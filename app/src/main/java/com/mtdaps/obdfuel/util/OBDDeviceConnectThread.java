@@ -50,13 +50,26 @@ public class OBDDeviceConnectThread extends Thread {
      *
      * @return obdSocketHandler
      */
-    public static OBDDeviceConnectThread getDefaultOBDDeviceConnectThread(BluetoothDevice obdDevice, Context context) {
+    public static OBDDeviceConnectThread setDefaultOBDDeviceConnectThread(BluetoothDevice obdDevice, Context context) {
         if (obdDeviceConnectThread == null) {
             //synchronized block to remove overhead
-            synchronized (ObdSocketHandler.class) {
+            synchronized (OBDSocketHandler.class) {
                 if (obdDeviceConnectThread == null) {
                     // if instance is null, initialize
                     obdDeviceConnectThread = new OBDDeviceConnectThread(obdDevice, context);
+                }
+
+            }
+        }
+        return obdDeviceConnectThread;
+    }
+
+    public static OBDDeviceConnectThread getDefaultOBDDeviceConnectThread() {
+        if (obdDeviceConnectThread == null) {
+            //synchronized block to remove overhead
+            synchronized (OBDSocketHandler.class) {
+                if (obdDeviceConnectThread == null) {
+                    Log.println(Log.ERROR, "OBDDeviceConnectThread", "OBD Device is already connected. Disconnect it to Run Again");
                 }
 
             }
@@ -113,22 +126,35 @@ public class OBDDeviceConnectThread extends Thread {
 
             // The connection attempt succeeded. Perform work associated with
             // the connection in a separate thread.
-            ObdSocketHandler.getDefaultObdSocketHandler().setObdSocket(mmSocket);
+            OBDSocketHandler.getDefaultObdSocketHandler().setObdSocket(mmSocket);
             this.changeState(OBDDeviceConnectThreadState.CONNECTED);
             Intent homeIntent = new Intent(context, HomeActivity.class);
             startActivity(context, homeIntent, null);
+        } else {
+            Log.println(Log.ERROR, "OBDDeviceConnectThread", "OBD Device is already connected. Disconnect it to Run Again");
         }
     }
 
     // Closes the client socket and causes the thread to finish.
-    public void cancel() {
+    private void cancel() {
         try {
             mmSocket.close();
         } catch (IOException e) {
             Log.e("OBDConnectionError", "Could not close the client socket", e);
         }
-        if(getOBDDeviceConnectThreadState()==OBDDeviceConnectThreadState.CONNECTED){
-            changeState(OBDDeviceConnectThreadState.FREE);
+        synchronized (OBDSocketHandler.class) {
+            if (obdDeviceConnectThread != null) {
+                obdDeviceConnectThread = null;
+            }
+        }
+        return;
+    }
+
+    // Closes the client socket and causes the thread to finish.
+    public void changeOBDDevice() throws IOException {
+        mmSocket.close();
+
+        if (getOBDDeviceConnectThreadState() == OBDDeviceConnectThreadState.CONNECTED) {
             obdDeviceConnectThread = null;
         }
         return;

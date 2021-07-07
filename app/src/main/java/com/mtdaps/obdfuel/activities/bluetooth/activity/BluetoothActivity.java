@@ -5,7 +5,6 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -26,6 +25,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,6 +43,7 @@ import java.util.Set;
 public class BluetoothActivity extends AppCompatActivity implements ActivityInterface {
     private final ArrayList<BluetoothDevice> discorverdDevices = new ArrayList<>();
     // UI Elements
+    private Toolbar bluetoothToolbar;
     private FloatingActionButton bluetoothButton;
     private ConstraintLayout layout;
     private ScrollView scrollView;
@@ -99,9 +100,6 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
     private AlertDialog.Builder dialogBuilder;
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothDevicesRecycleViewAdapter bluetoothDevicesRecycleViewAdapter, discoverBluetoothDevicesRecycleViewAdapter;
-
-    private Bundle bundle;
-
     /**
      * used to show message after bluetooth is connected
      */
@@ -116,6 +114,7 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
                     Toast.makeText(getApplicationContext(), R.string.bluetooth_not_enabled, Toast.LENGTH_LONG).show();
                 }
             });
+    private Bundle bundle;
     private LocationManager locationManager;
 
     @Override
@@ -125,10 +124,10 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
 
         bundle = savedInstanceState;
 
-        // hide the action bar
-        getSupportActionBar().hide();
-
         setup();
+
+        setSupportActionBar(bluetoothToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         connectBluetooth();
@@ -159,6 +158,7 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
         noPairedDevices = findViewById(R.id.noPairedDevices);
         loadingText = findViewById(R.id.loadingText);
         loading = findViewById(R.id.loading);
+        bluetoothToolbar = findViewById(R.id.bluetoothToolbar);
 
         // Paired Devices Recylcer View
         bluetoothDevicesRecycleViewAdapter = new BluetoothDevicesRecycleViewAdapter(this);
@@ -284,7 +284,7 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
 
             if (!isLocationEnabled()) {
                 // notify user
-                dialogBuilder = UiUtil.createWarningAlertDialogBuilder(bundle,this,"Enable Location","Location access is required for Bluetooth Connection.","Enable Locaiton",Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                dialogBuilder = UiUtil.createWarningAlertDialogBuilder(bundle, this, "Enable Location", "Location access is required for Bluetooth Connection.", "Enable Locaiton", Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 dialog = dialogBuilder.create();
                 // Used to check if Location is on
                 Thread thread = new Thread() {

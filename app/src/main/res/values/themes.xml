@@ -12,6 +12,11 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="android:itemTextAppearance">@style/menuItem</item>
+
         <!-- Customize your theme here. -->
     </style>
 
@@ -29,6 +34,13 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:letterSpacing">0.05</item>
         <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="menuItem" parent="Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:textColor">@color/black_purple</item>
+        <item name="fontFamily">@font/nunito</item>
+        <item name="android:fontFamily">@font/nunito</item>
+        <item name="android:letterSpacing">0.02</item>
     </style>
 
 

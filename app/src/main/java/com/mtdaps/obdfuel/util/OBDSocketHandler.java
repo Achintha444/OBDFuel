@@ -12,26 +12,26 @@ import java.io.OutputStream;
  *
  * This is a singleton
  */
-public class ObdSocketHandler {
+public class OBDSocketHandler {
     private BluetoothSocket obdSocket;
-    private static ObdSocketHandler obdSocketHandler;
+    private static OBDSocketHandler obdSocketHandler;
 
-    private ObdSocketHandler() {}
+    private OBDSocketHandler() {}
 
     /**
      * Used to return the singleton ObdSocketHandler object
      * @return obdSocketHandler
      */
-    public static ObdSocketHandler getDefaultObdSocketHandler(){
+    public static OBDSocketHandler getDefaultObdSocketHandler(){
         if (obdSocketHandler == null)
         {
             //synchronized block to remove overhead
-            synchronized (ObdSocketHandler.class)
+            synchronized (OBDSocketHandler.class)
             {
                 if(obdSocketHandler==null)
                 {
                     // if instance is null, initialize
-                    obdSocketHandler = new ObdSocketHandler();
+                    obdSocketHandler = new OBDSocketHandler();
                 }
 
             }
@@ -52,7 +52,5 @@ public class ObdSocketHandler {
         return this.obdSocket.getOutputStream();
     }
 
-    public void closeSocket() throws IOException {
-        this.obdSocket.close();
-    }
+    // close the socket from OBDDeviceConnectThread
 }

@@ -83,18 +83,19 @@ public class BluetoothDevicesRecycleViewAdapter extends RecyclerView.Adapter<Blu
 
         private void itemOnClickListner(View item) {
             item.setOnClickListener(view -> {
-                OBDDeviceConnectThread obdDeviceConnectThread = OBDDeviceConnectThread.getDefaultOBDDeviceConnectThread(device,itemView.getContext());
+                OBDDeviceConnectThread obdDeviceConnectThread = OBDDeviceConnectThread.setDefaultOBDDeviceConnectThread(device,itemView.getContext());
 
                 if(obdDeviceConnectThread.getOBDDeviceConnectThreadState()== OBDDeviceConnectThreadState.WAITING){
                     Toast.makeText(item.getContext(),"Cannot connect two items at a time", Toast.LENGTH_LONG).show();
                 } else{
-                    showSnackBar(obdDeviceConnectThread).start();
                     try {
                         obdDeviceConnectThread.start();
                         Log.println(Log.DEBUG, "Connecting", "Connecting Thread Running");
                     } catch (Exception e) {
-                        Toast.makeText(item.getContext(), "Connection Failed, Try Again.", Toast.LENGTH_LONG).show();
+                       // Log.println(Log.ERROR,"dad",e.getMessage());
+                        Toast.makeText(item.getContext(), "Connection Failed,"+e.getMessage(), Toast.LENGTH_LONG).show();
                     }
+                    showSnackBar(obdDeviceConnectThread).start();
                 }
             });
         }

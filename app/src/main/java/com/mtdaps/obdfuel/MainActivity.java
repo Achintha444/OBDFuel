@@ -9,9 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.mtdaps.obdfuel.activities.bluetooth.activity.BluetoothActivity;
-import com.mtdaps.obdfuel.activities.home.activity.HomeActivity;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,18 +19,13 @@ public class MainActivity extends AppCompatActivity{
 
         // set the theme to Light
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        // hide the action bar
-        getSupportActionBar().hide();
 
         // Open bluetooth activity
         final Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                startActivity(intent,savedInstanceState);
-                finish();
-            }
+        handler.postDelayed(() -> {
+            Intent intent = new Intent(MainActivity.this, BluetoothActivity.class);
+            startActivity(intent, savedInstanceState);
+            finish();
         }, 2000);
 
 
