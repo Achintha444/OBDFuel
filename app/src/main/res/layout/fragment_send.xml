@@ -7,11 +7,12 @@
     tools:context=".activities.home.fragments.SendFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sendFragmentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/discoverDevicesButton2"
+            android:id="@+id/sendObdDataButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginStart="16dp"
@@ -22,6 +23,23 @@
             android:text="Send OBD Data"
             android:textColor="@color/white_prurple"
             android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sendText" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/purple_700"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="Cancel"
+            android:textColor="@color/white_prurple"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"

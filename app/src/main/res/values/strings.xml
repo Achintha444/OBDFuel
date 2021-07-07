@@ -12,4 +12,6 @@
     <string name="OBD_BLUETOOTH_SOCKET">OBD_BLUETOOTH_SOCKET</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="vehicle_name_error">Vehicle Name should be at least 6 characters</string>
 </resources>
