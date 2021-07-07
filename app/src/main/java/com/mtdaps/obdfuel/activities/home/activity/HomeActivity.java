@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
@@ -45,6 +47,7 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
     private AlertDialog.Builder locaitonDialogBuilder, bluetoothDialogBuilder;
 
     private Bundle bundle;
+    private boolean doubleBackToExitPressedOnce;
     private boolean flag;
 
     @Override
@@ -112,6 +115,19 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
         viewPager = findViewById(R.id.viewPager);
         toolbar = findViewById(R.id.bluetoothToolbar);
         flag = true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            moveTaskToBack(true);
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Tap again to exit OBDFuel", Toast.LENGTH_SHORT).show();
+
+        new Handler(Looper.getMainLooper()).postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
     }
 
     private void prepareAdapter(ViewPager2 viewPager) {
