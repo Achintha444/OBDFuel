@@ -99,6 +99,7 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
             // this will close the socket, and make OCDDeviceConnectThread FREE
             OBDDeviceConnectThread.getDefaultOBDDeviceConnectThread().changeOBDDevice();
             Intent bluetoothIntent = new Intent(this, BluetoothActivity.class);
+            Toast.makeText(this, "OBD Device Disconnected", Toast.LENGTH_LONG).show();
             this.startActivity(bluetoothIntent);
         } catch (IOException e) {
             Toast.makeText(this, "Could not change device. Try Again", Toast.LENGTH_LONG);
