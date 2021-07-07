@@ -38,7 +38,7 @@
             android:letterSpacing="0.05"
             android:text="@string/bluetooth_activity_name"
             android:textColor="@color/white_prurple"
-            android:textSize="20dp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

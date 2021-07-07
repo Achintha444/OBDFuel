@@ -50,6 +50,7 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
 
         locationManager = (LocationManager) getBaseContext().getSystemService(Context.LOCATION_SERVICE);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        // Used to call the static alert dialog maker
         bundle = savedInstanceState;
 
         servicesCheckThread();
@@ -94,7 +95,7 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
     }
 
     /**
-     * Contiusally check if locaiton and bluetooth is enabled.
+     * Continually check if location and bluetooth is enabled.
      */
     private void servicesCheckThread() {
         bluetoothDialogBuilder = UiUtil.createWarningAlertDialogBuilder(bundle, HomeActivity.this, "Enable Bluetooth", "Bluetooth is not enabled.", "Enable Bluetooth", Settings.ACTION_BLUETOOTH_SETTINGS);
@@ -145,8 +146,6 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
                         e.printStackTrace();
                     }
                 }
-
-
             }
         };
 
