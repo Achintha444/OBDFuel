@@ -1,0 +1,61 @@
+package com.mtdaps.obdfuel.activities.home.model;
+
+import android.location.Location;
+
+import com.mtdaps.obdfuel.util.UiUtil;
+
+import java.util.HashMap;
+
+/**
+ * This is the class that used to create the object that will send the data to couchbase server
+ */
+public class OBDData {
+    private static String vehicleName;
+    private final Location currentLocation;
+    // TODO: here we need to the rest of OBD realted data
+
+
+    public OBDData(Location currentLocation) {
+        this.currentLocation = currentLocation;
+    }
+
+    public static String getVehicleName() {
+        return vehicleName;
+    }
+
+    public static void setVehicleName(String vehicleName) {
+        OBDData.vehicleName = vehicleName;
+    }
+
+    public Location getCurrentLocation() {
+        return currentLocation;
+    }
+
+    /**
+     * This method will use to create the HashMap that will send to Couchbase database
+     *
+     * @return OBDData Document
+     */
+    public HashMap<String, Object> getDocument() {
+        HashMap<String, Object> obdDataDocument = new HashMap<>();
+        obdDataDocument.put("timeStamp", UiUtil.getCurrentTimeMillis());
+        obdDataDocument.put("timeString", UiUtil.formatCurrentDate());
+        obdDataDocument.put("vehicleName", vehicleName);
+        obdDataDocument.put("vehicleLocation", getLocationHashMap());
+        obdDataDocument.put("obdData", getRealOBDDataDocument());
+        return obdDataDocument;
+    }
+
+    private HashMap<String, Double> getLocationHashMap() {
+        HashMap<String, Double> locationDocument = new HashMap<>();
+        locationDocument.put("latitude", this.currentLocation.getLatitude());
+        locationDocument.put("longitude", this.currentLocation.getLongitude());
+        return locationDocument;
+    }
+
+    // TODO: Implement this method
+    private HashMap<String, Object> getRealOBDDataDocument() {
+        HashMap<String, Object> realOBDDataDocument = new HashMap<>();
+        return realOBDDataDocument;
+    }
+}

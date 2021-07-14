@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.mtdaps.obdfuel.activities.bluetooth.activity.BluetoothActivity;
+import com.mtdaps.obdfuel.activities.home.activity.HomeActivity;
 
 public class MainActivity extends AppCompatActivity {
 

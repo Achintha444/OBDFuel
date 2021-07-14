@@ -28,10 +28,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.mtdaps.obdfuel.R;
 import com.mtdaps.obdfuel.activities.bluetooth.util.BluetoothDevicesRecycleViewAdapter;
 import com.mtdaps.obdfuel.util.ActivityInterface;
@@ -322,13 +324,13 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
      * From Android 10 onwards it need Access Location to search bluetooth Devices
      */
     private void checkForLocationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(getBaseContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
                 checkIfGPSEnabled();
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_BACKGROUND_LOCATION,}, 1);
+            }
+            else {
+                ActivityCompat.requestPermissions(BluetoothActivity.this, new String[]{
+                        android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         }
     }
@@ -343,19 +345,35 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-            discoverDevices();
-        } else {
-            checkForLocationPermission();
+
+        switch (requestCode){
+            case 1:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED ) {
+                    checkIfGPSEnabled();
+                } else {
+                    checkForLocationPermission();
+                }
         }
+
     }
 
     private void discoverDevicesButtonOnClick() {
-        discoverDevicesButton.setOnClickListener(view -> checkForLocationPermission());
+        discoverDevicesButton.setOnClickListener(view -> {
+            Log.println(Log.INFO,"BluetoothActivity123","adsadasdasd");
+            checkForLocationPermission();
+        });
     }
 
     private boolean isLocationEnabled() {
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            // This is a new method provided in API 28
+            return locationManager.isLocationEnabled();
+        } else {
+            // This was deprecated in API 28
+            int mode = Settings.Secure.getInt(this.getContentResolver(), Settings.Secure.LOCATION_MODE,
+                    Settings.Secure.LOCATION_MODE_OFF);
+            return (mode != Settings.Secure.LOCATION_MODE_OFF);
+        }
     }
 
     @Override

@@ -3,14 +3,11 @@ package com.mtdaps.obdfuel.activities.home.fragments;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,17 +17,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.transition.Visibility;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mtdaps.obdfuel.R;
 import com.mtdaps.obdfuel.util.ActivityInterface;
-import com.mtdaps.obdfuel.util.UiUtil;
 
 import org.jetbrains.annotations.NotNull;
-
-import static androidx.core.content.ContextCompat.getSystemService;
 
 /**
  * Interface, which enables to send OBD data to database
@@ -86,6 +79,7 @@ public class SendFragment extends Fragment implements ActivityInterface {
 
     /**
      * validator of vehicle name text field
+     *
      * @param e
      * @param t
      */
@@ -114,15 +108,15 @@ public class SendFragment extends Fragment implements ActivityInterface {
         });
     }
 
-    private void switchVisibilityOnSendingObdData(){
+    private void switchVisibilityOnSendingObdData() {
         int visibility = sendText.getVisibility();
-        if(visibility == View.GONE){
+        if (visibility == View.GONE) {
             sendText.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.VISIBLE);
             cancelButton.setVisibility(View.VISIBLE);
             sendObdDataButton.setVisibility(View.GONE);
             vehicleName.setEnabled(false);
-        } else{
+        } else {
             sendText.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
             cancelButton.setVisibility(View.GONE);
@@ -133,25 +127,25 @@ public class SendFragment extends Fragment implements ActivityInterface {
 
     }
 
-    private void sendObdDataButtonOnClickListner(){
+    private void sendObdDataButtonOnClickListner() {
         sendObdDataButton.setOnClickListener(view -> {
-            if(isInternetAvailable()){
-                if(vehicleNameEditText.getText().toString().trim().equals("")){
+            if (isInternetAvailable()) {
+                if (vehicleNameEditText.getText().toString().trim().equals("")) {
                     vehicleName.setError(getResources().getString(R.string.vehicle_name_error));
-                } else{
+                } else {
                     switchVisibilityOnSendingObdData();
                 }
-            } else{
-                Toast.makeText(getContext(),"Internet is not Connected",Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(), "Internet is not Connected", Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private void cancelButtonOnClickListner(){
+    private void cancelButtonOnClickListner() {
         cancelButton.setOnClickListener(view -> {
             // TODO: cancel the process
             switchVisibilityOnSendingObdData();
-            Toast.makeText(getContext(),"Sending OBD Data Canceled",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Sending OBD Data Canceled", Toast.LENGTH_LONG).show();
 
         });
     }

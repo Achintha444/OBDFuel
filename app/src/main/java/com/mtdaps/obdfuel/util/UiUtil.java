@@ -20,6 +20,10 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import com.google.android.material.snackbar.Snackbar;
 import com.mtdaps.obdfuel.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 import static androidx.core.content.ContextCompat.startActivity;
@@ -40,13 +44,22 @@ public class UiUtil {
 
     // default snackbar
     public static Snackbar showSnackbar(ViewGroup layout, Context context, String text, int color, int duration) {
+
+
+
         Snackbar snackbar = Snackbar.make(layout, text, duration);
         View snackbarView = snackbar.getView();
         TextView textview = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-        Typeface font = ResourcesCompat.getFont(context, R.font.nunito_bold);
-        textview.setTypeface(font);
         snackbarView.setBackgroundColor(ContextCompat.getColor(context, color));
-        return snackbar;
+
+        try{
+            Typeface font = ResourcesCompat.getFont(context, R.font.nunito_bold);
+            textview.setTypeface(font);
+            return snackbar;
+        } catch(Exception ex){
+            return snackbar;
+        }
+
     }
 
     public static Snackbar showWaitingSnackBar(ViewGroup layout, Context context, String text) {
@@ -68,5 +81,31 @@ public class UiUtil {
                     startActivity(context, myIntent, bundle);
                 })
                 .setCancelable(false);
+    }
+
+    /**
+     * return the current time
+     * @return the current time
+     */
+    public static Date getCurrentDate(){
+        return  Calendar.getInstance().getTime();
+    }
+
+    /**
+     * return the current time in epcoh format
+     * @return the current time in epcoh format
+     */
+    public static Long getCurrentTimeMillis(){
+        return System.currentTimeMillis();
+    }
+
+    /**
+     * return the current date
+     * yyyy-MM-dd
+     * format
+     */
+    public static String formatCurrentDate(){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return df.format(getCurrentDate());
     }
 }
