@@ -11,11 +11,10 @@ import java.util.HashMap;
  */
 public class OBDData {
     private static String vehicleName;
-    private final Location currentLocation;
+    private String currentLocation;
     // TODO: here we need to the rest of OBD realted data
 
-
-    public OBDData(Location currentLocation) {
+    public OBDData(String currentLocation) {
         this.currentLocation = currentLocation;
     }
 
@@ -27,7 +26,7 @@ public class OBDData {
         OBDData.vehicleName = vehicleName;
     }
 
-    public Location getCurrentLocation() {
+    public String getCurrentLocation() {
         return currentLocation;
     }
 
@@ -48,8 +47,8 @@ public class OBDData {
 
     private HashMap<String, Double> getLocationHashMap() {
         HashMap<String, Double> locationDocument = new HashMap<>();
-        locationDocument.put("latitude", this.currentLocation.getLatitude());
-        locationDocument.put("longitude", this.currentLocation.getLongitude());
+//        locationDocument.put("latitude", this.currentLocation.getLatitude());
+//        locationDocument.put("longitude", this.currentLocation.getLongitude());
         return locationDocument;
     }
 

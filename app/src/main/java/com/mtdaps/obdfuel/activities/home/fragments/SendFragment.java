@@ -1,6 +1,7 @@
 package com.mtdaps.obdfuel.activities.home.fragments;
 
 import android.content.Context;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.Editable;
@@ -21,6 +22,8 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mtdaps.obdfuel.R;
+import com.mtdaps.obdfuel.activities.home.model.OBDData;
+import com.mtdaps.obdfuel.activities.home.util.DatabaseHandler;
 import com.mtdaps.obdfuel.util.ActivityInterface;
 
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +40,7 @@ public class SendFragment extends Fragment implements ActivityInterface {
     private TextView sendText;
     private ProgressBar progressBar;
     private ConstraintLayout sendFragmentLayout;
+    private DatabaseHandler databaseHandler;
 
     private ConnectivityManager connectivityManager;
 
@@ -50,6 +54,7 @@ public class SendFragment extends Fragment implements ActivityInterface {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         this.container = container;
+        this.databaseHandler = DatabaseHandler.getDefaultDatabaseHandler(getContext());
         return inflater.inflate(R.layout.fragment_send, container, false);
     }
 
@@ -134,6 +139,7 @@ public class SendFragment extends Fragment implements ActivityInterface {
                     vehicleName.setError(getResources().getString(R.string.vehicle_name_error));
                 } else {
                     switchVisibilityOnSendingObdData();
+                    sentObdData();
                 }
             } else {
                 Toast.makeText(getContext(), "Internet is not Connected", Toast.LENGTH_LONG).show();
@@ -148,6 +154,11 @@ public class SendFragment extends Fragment implements ActivityInterface {
             Toast.makeText(getContext(), "Sending OBD Data Canceled", Toast.LENGTH_LONG).show();
 
         });
+    }
+
+    private void sentObdData(){
+        DatabaseHandler.saveObdData(new OBDData("check").getDocument());
+        databaseHandler.startReplication();
     }
 
     public boolean isInternetAvailable() {
