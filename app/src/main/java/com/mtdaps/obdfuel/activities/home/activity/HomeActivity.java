@@ -175,7 +175,7 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
             @Override
             public void run() {
                 while (flag) {
-                    Log.println(Log.INFO, "Home Activiy", "THREAD CHECK ");
+                    //Log.println(Log.INFO, "Home Activiy", "THREAD CHECK ");
                     if (!isLocationEnabled()) {
                         Log.println(Log.INFO, "Home Activiy", "THREAD CHECK LOCATION");
 
@@ -185,7 +185,7 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
 
                         while (!isLocationEnabled()) {
                             try {
-                                Thread.sleep(2000);
+                                Thread.sleep(100);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -199,7 +199,7 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
                         });
                         while (!isBluetoothEnabled()) {
                             try {
-                                Thread.sleep(2000);
+                                Thread.sleep(100);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -208,7 +208,7 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
                     }
 
                     try {
-                        Thread.sleep(2000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

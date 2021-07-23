@@ -35,20 +35,19 @@ public class OBDData {
      *
      * @return OBDData Document
      */
-    public HashMap<String, Object> getDocument() {
+    public HashMap<String, Object> getDocument(Location location) {
         HashMap<String, Object> obdDataDocument = new HashMap<>();
         obdDataDocument.put("timeStamp", UiUtil.getCurrentTimeMillis());
-        obdDataDocument.put("timeString", UiUtil.formatCurrentDate());
         obdDataDocument.put("vehicleName", vehicleName);
-        obdDataDocument.put("vehicleLocation", getLocationHashMap());
+        obdDataDocument.put("vehicleLocation", getLocationHashMap(location));
         obdDataDocument.put("obdData", getRealOBDDataDocument());
         return obdDataDocument;
     }
 
-    private HashMap<String, Double> getLocationHashMap() {
+    private HashMap<String, Double> getLocationHashMap(Location location) {
         HashMap<String, Double> locationDocument = new HashMap<>();
-//        locationDocument.put("latitude", this.currentLocation.getLatitude());
-//        locationDocument.put("longitude", this.currentLocation.getLongitude());
+        locationDocument.put("latitude", location.getLatitude());
+        locationDocument.put("longitude", location.getLongitude());
         return locationDocument;
     }
 
