@@ -29,6 +29,8 @@ import com.mtdaps.obdfuel.activities.bluetooth.activity.BluetoothActivity;
 import com.mtdaps.obdfuel.activities.home.util.HomeTabAdapter;
 import com.mtdaps.obdfuel.util.ActivityInterface;
 import com.mtdaps.obdfuel.util.OBDDeviceConnectThread;
+import com.mtdaps.obdfuel.util.OBDSocketHandler;
+import com.mtdaps.obdfuel.util.OBDValues;
 import com.mtdaps.obdfuel.util.UiUtil;
 
 import java.io.IOException;
@@ -70,6 +72,8 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
         bundle = savedInstanceState;
 
         servicesCheckThread();
+
+
     }
 
     /**

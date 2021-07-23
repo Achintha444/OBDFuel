@@ -5,4 +5,5 @@ public enum OBDDeviceConnectThreadState {
     WAITING,
     CONNECTED,
     FAILED,
+    WRONG_DEVICE
 }

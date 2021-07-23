@@ -4,16 +4,20 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
-import com.mtdaps.obdfuel.activities.home.activity.HomeActivity;
+import androidx.annotation.RequiresApi;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Supplier;
 
-import static androidx.core.content.ContextCompat.startActivity;
+/**
+ * This is used to connect the OBD device through bluetooth
+ */
 
 public class OBDDeviceConnectThread extends Thread {
     private static final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -127,9 +131,14 @@ public class OBDDeviceConnectThread extends Thread {
             // The connection attempt succeeded. Perform work associated with
             // the connection in a separate thread.
             OBDSocketHandler.getDefaultObdSocketHandler().setObdSocket(mmSocket);
-            this.changeState(OBDDeviceConnectThreadState.CONNECTED);
-            Intent homeIntent = new Intent(context, HomeActivity.class);
-            startActivity(context, homeIntent, null);
+
+            if (checkConnectedToWrongDevice()) {
+                Log.println(Log.ERROR, "OBDDeviceConnectThread", "Wrong Device Connected!");
+                cancel();
+                changeState(OBDDeviceConnectThreadState.WRONG_DEVICE);
+            } else {
+                this.changeState(OBDDeviceConnectThreadState.CONNECTED);
+            }
         } else {
             Log.println(Log.ERROR, "OBDDeviceConnectThread", "OBD Device is already connected. Disconnect it to Run Again");
         }
@@ -156,6 +165,7 @@ public class OBDDeviceConnectThread extends Thread {
 
         if (getOBDDeviceConnectThreadState() == OBDDeviceConnectThreadState.CONNECTED) {
             obdDeviceConnectThread = null;
+            changeState(OBDDeviceConnectThreadState.FREE);
         }
         return;
     }
@@ -178,6 +188,53 @@ public class OBDDeviceConnectThread extends Thread {
 
     public OBDDeviceConnectThreadState getOBDDeviceConnectThreadState() {
         return OBDDeviceConnectThread.state;
+    }
+
+    /**
+     * @return true is wrong device connected
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private boolean checkConnectedToWrongDevice() {
+        try {
+            Log.println(Log.ERROR, "OBDDeviceConnectThread", "Wrong Device Connected! - 1");
+            Thread thread = OBDValues.check(OBDSocketHandler.getDefaultObdSocketHandler().getInputStream(), OBDSocketHandler.getDefaultObdSocketHandler().getOutputStream());
+
+            thread.start();
+
+            // Run a task specified by a Runnable Object asynchronously.
+            CompletableFuture<Boolean> future = CompletableFuture.supplyAsync(() -> {
+
+                try {
+                    this.sleep(5000);
+                } catch (InterruptedException e) {
+                   return true;
+                }
+
+                if (thread.isAlive()) {
+                    thread.interrupt();
+                    return true;
+                }
+                return false;
+
+            });
+
+            return future.get();
+
+        } catch (IOException e) {
+            Log.println(Log.ERROR, "HomeActivity", "Connected to Wrong Device");
+            e.printStackTrace();
+            return true;
+        } catch (InterruptedException e) {
+            Log.println(Log.ERROR, "HomeActivity", "Connected to Wrong Device");
+            e.printStackTrace();
+            return true;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            return true;
+        }
     }
 }
 

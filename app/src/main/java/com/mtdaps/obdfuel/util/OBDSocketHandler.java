@@ -48,7 +48,7 @@ public class OBDSocketHandler {
         return this.obdSocket.getInputStream();
     }
 
-    public OutputStream getIutputStream() throws IOException {
+    public OutputStream getOutputStream() throws IOException {
         return this.obdSocket.getOutputStream();
     }
 

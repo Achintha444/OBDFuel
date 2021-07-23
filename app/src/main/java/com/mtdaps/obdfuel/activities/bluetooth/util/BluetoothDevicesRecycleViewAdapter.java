@@ -2,6 +2,7 @@ package com.mtdaps.obdfuel.activities.bluetooth.util;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.mtdaps.obdfuel.R;
+import com.mtdaps.obdfuel.activities.home.activity.HomeActivity;
 import com.mtdaps.obdfuel.util.ActivityInterface;
 import com.mtdaps.obdfuel.util.OBDDeviceConnectThread;
 import com.mtdaps.obdfuel.util.OBDDeviceConnectThreadState;
 import com.mtdaps.obdfuel.util.UiUtil;
 
 import java.util.ArrayList;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class BluetoothDevicesRecycleViewAdapter extends RecyclerView.Adapter<BluetoothDevicesRecycleViewAdapter.ViewHolder> {
     private final Context context;
@@ -83,17 +87,17 @@ public class BluetoothDevicesRecycleViewAdapter extends RecyclerView.Adapter<Blu
 
         private void itemOnClickListner(View item) {
             item.setOnClickListener(view -> {
-                OBDDeviceConnectThread obdDeviceConnectThread = OBDDeviceConnectThread.setDefaultOBDDeviceConnectThread(device,itemView.getContext());
+                OBDDeviceConnectThread obdDeviceConnectThread = OBDDeviceConnectThread.setDefaultOBDDeviceConnectThread(device, itemView.getContext());
 
-                if(obdDeviceConnectThread.getOBDDeviceConnectThreadState()== OBDDeviceConnectThreadState.WAITING){
-                    Toast.makeText(item.getContext(),"Cannot connect two items at a time", Toast.LENGTH_LONG).show();
-                } else{
+                if (obdDeviceConnectThread.getOBDDeviceConnectThreadState() == OBDDeviceConnectThreadState.WAITING) {
+                    Toast.makeText(item.getContext(), "Cannot connect two items at a time", Toast.LENGTH_LONG).show();
+                } else {
                     try {
                         obdDeviceConnectThread.start();
                         Log.println(Log.DEBUG, "Connecting", "Connecting Thread Running");
                     } catch (Exception e) {
-                       // Log.println(Log.ERROR,"dad",e.getMessage());
-                        Toast.makeText(item.getContext(), "Connection Failed,"+e.getMessage(), Toast.LENGTH_LONG).show();
+                        // Log.println(Log.ERROR,"dad",e.getMessage());
+                        Toast.makeText(item.getContext(), "Connection Failed," + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                     showSnackBar(obdDeviceConnectThread).start();
                 }
@@ -108,11 +112,11 @@ public class BluetoothDevicesRecycleViewAdapter extends RecyclerView.Adapter<Blu
             this.context = context;
         }
 
-        private Thread showSnackBar(OBDDeviceConnectThread obdDeviceConnectThread){
+        private Thread showSnackBar(OBDDeviceConnectThread obdDeviceConnectThread) {
             Thread thread = new Thread(() -> {
-                Snackbar waitingSnackBar = UiUtil.showWaitingSnackBar(itemView.findViewById(R.id.bluetooth_device_list_item_parent),itemView.getContext(),"Connecting...");
+                Snackbar waitingSnackBar = UiUtil.showWaitingSnackBar(itemView.findViewById(R.id.bluetooth_device_list_item_parent), itemView.getContext(), "Connecting...");
                 waitingSnackBar.show();
-                while (obdDeviceConnectThread.getOBDDeviceConnectThreadState()==OBDDeviceConnectThreadState.WAITING){
+                while (obdDeviceConnectThread.getOBDDeviceConnectThreadState() == OBDDeviceConnectThreadState.WAITING) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
@@ -120,9 +124,16 @@ public class BluetoothDevicesRecycleViewAdapter extends RecyclerView.Adapter<Blu
                     }
                 }
                 waitingSnackBar.dismiss();
-                if(obdDeviceConnectThread.getOBDDeviceConnectThreadState()==OBDDeviceConnectThreadState.FAILED){
-                    Snackbar failedSnackBar = UiUtil.showSnackbar(itemView.findViewById(R.id.bluetooth_device_list_item_parent),itemView.getContext(),"Connection Failed. Try Again");
+                if (obdDeviceConnectThread.getOBDDeviceConnectThreadState() == OBDDeviceConnectThreadState.FAILED) {
+                    Snackbar failedSnackBar = UiUtil.showSnackbar(itemView.findViewById(R.id.bluetooth_device_list_item_parent), itemView.getContext(), "Connection Failed. Try Again");
                     failedSnackBar.show();
+                } else if (obdDeviceConnectThread.getOBDDeviceConnectThreadState() == OBDDeviceConnectThreadState.WRONG_DEVICE) {
+                    Snackbar failedSnackBar = UiUtil.showSnackbar(itemView.findViewById(R.id.bluetooth_device_list_item_parent), itemView.getContext(), "OBD Device not Recognized");
+                    failedSnackBar.show();
+
+                } else if (obdDeviceConnectThread.getOBDDeviceConnectThreadState() == OBDDeviceConnectThreadState.CONNECTED) {
+                    Intent homeIntent = new Intent(context, HomeActivity.class);
+                    startActivity(context, homeIntent, null);
                 }
             });
 

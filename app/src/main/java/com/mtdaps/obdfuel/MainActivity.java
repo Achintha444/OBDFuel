@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         // Open bluetooth activity
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(() -> {
-            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            Intent intent = new Intent(MainActivity.this, BluetoothActivity.class);
             startActivity(intent, savedInstanceState);
             finish();
         }, 2000);
