@@ -38,8 +38,11 @@ import com.mtdaps.obdfuel.R;
 import com.mtdaps.obdfuel.activities.home.model.OBDData;
 import com.mtdaps.obdfuel.activities.home.util.DatabaseHandler;
 import com.mtdaps.obdfuel.util.ActivityInterface;
+import com.mtdaps.obdfuel.util.OBDValues;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 
 /**
  * Interface, which enables to send OBD data to database
@@ -163,6 +166,13 @@ public class SendFragment extends Fragment implements ActivityInterface {
                 if (vehicleNameEditText.getText().toString().trim().equals("")) {
                     vehicleName.setError(getResources().getString(R.string.vehicle_name_error));
                 } else {
+                    try {
+                        OBDValues.init();
+                    } catch (IOException e) {
+                        Toast.makeText(getContext(), "OBD is not Responding. Try Again Later.", Toast.LENGTH_LONG).show();
+                    } catch (InterruptedException e) {
+                        Toast.makeText(getContext(), "OBD is not Responding. Try Again Later.", Toast.LENGTH_LONG).show();
+                    }
                     switchVisibilityOnSendingObdData();
                     saveLocationAndObdToDatabase();
                 }
@@ -183,6 +193,10 @@ public class SendFragment extends Fragment implements ActivityInterface {
         });
     }
 
+    /**
+     * This method use to sent OBD data to the database
+     * @param location
+     */
     private void sentObdData(Location location) {
         DatabaseHandler.saveObdData(new OBDData("check").getDocument(location));
         databaseHandler.startReplication();

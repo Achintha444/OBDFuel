@@ -132,13 +132,15 @@ public class OBDDeviceConnectThread extends Thread {
             // the connection in a separate thread.
             OBDSocketHandler.getDefaultObdSocketHandler().setObdSocket(mmSocket);
 
-            if (checkConnectedToWrongDevice()) {
+            /*if (checkConnectedToWrongDevice()) {
                 Log.println(Log.ERROR, "OBDDeviceConnectThread", "Wrong Device Connected!");
                 cancel();
                 changeState(OBDDeviceConnectThreadState.WRONG_DEVICE);
             } else {
                 this.changeState(OBDDeviceConnectThreadState.CONNECTED);
-            }
+            }*/
+
+            this.changeState(OBDDeviceConnectThreadState.CONNECTED);
         } else {
             Log.println(Log.ERROR, "OBDDeviceConnectThread", "OBD Device is already connected. Disconnect it to Run Again");
         }
@@ -197,7 +199,7 @@ public class OBDDeviceConnectThread extends Thread {
     private boolean checkConnectedToWrongDevice() {
         try {
             Log.println(Log.ERROR, "OBDDeviceConnectThread", "Wrong Device Connected! - 1");
-            Thread thread = OBDValues.check(OBDSocketHandler.getDefaultObdSocketHandler().getInputStream(), OBDSocketHandler.getDefaultObdSocketHandler().getOutputStream());
+            Thread thread = OBDValues.check();
 
             thread.start();
 
@@ -220,10 +222,6 @@ public class OBDDeviceConnectThread extends Thread {
 
             return future.get();
 
-        } catch (IOException e) {
-            Log.println(Log.ERROR, "HomeActivity", "Connected to Wrong Device");
-            e.printStackTrace();
-            return true;
         } catch (InterruptedException e) {
             Log.println(Log.ERROR, "HomeActivity", "Connected to Wrong Device");
             e.printStackTrace();

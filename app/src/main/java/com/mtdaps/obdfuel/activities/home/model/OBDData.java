@@ -2,6 +2,7 @@ package com.mtdaps.obdfuel.activities.home.model;
 
 import android.location.Location;
 
+import com.mtdaps.obdfuel.util.OBDValues;
 import com.mtdaps.obdfuel.util.UiUtil;
 
 import java.util.HashMap;
@@ -53,7 +54,6 @@ public class OBDData {
 
     // TODO: Implement this method
     private HashMap<String, Object> getRealOBDDataDocument() {
-        HashMap<String, Object> realOBDDataDocument = new HashMap<>();
-        return realOBDDataDocument;
+        return OBDValues.obdData();
     }
 }
