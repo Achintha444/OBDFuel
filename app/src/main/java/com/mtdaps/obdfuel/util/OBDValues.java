@@ -20,6 +20,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 
+
+
+
 public class OBDValues {
 
     private static final FindFuelTypeCommand findFuelTypeCommand = new FindFuelTypeCommand();
@@ -86,9 +89,9 @@ public class OBDValues {
         HashMap<String, Object> sendObdDataValues = new HashMap<>();
 
         try {
-            findFuelTypeCommand.run(OBDSocketHandler.getDefaultObdSocketHandler().getInputStream(), OBDSocketHandler.getDefaultObdSocketHandler().getOutputStream());
+            //findFuelTypeCommand.run(OBDSocketHandler.getDefaultObdSocketHandler().getInputStream(), OBDSocketHandler.getDefaultObdSocketHandler().getOutputStream());
             airFuelRatioCommand.run(OBDSocketHandler.getDefaultObdSocketHandler().getInputStream(), OBDSocketHandler.getDefaultObdSocketHandler().getOutputStream());
-            consumptionRateCommand.run(OBDSocketHandler.getDefaultObdSocketHandler().getInputStream(), OBDSocketHandler.getDefaultObdSocketHandler().getOutputStream());
+            //consumptionRateCommand.run(OBDSocketHandler.getDefaultObdSocketHandler().getInputStream(), OBDSocketHandler.getDefaultObdSocketHandler().getOutputStream());
             massAirFlowCommand.run(OBDSocketHandler.getDefaultObdSocketHandler().getInputStream(), OBDSocketHandler.getDefaultObdSocketHandler().getOutputStream());
             moduleVoltageCommand.run(OBDSocketHandler.getDefaultObdSocketHandler().getInputStream(), OBDSocketHandler.getDefaultObdSocketHandler().getOutputStream());
             speedCommand.run(OBDSocketHandler.getDefaultObdSocketHandler().getInputStream(), OBDSocketHandler.getDefaultObdSocketHandler().getOutputStream());
@@ -99,9 +102,7 @@ public class OBDValues {
             e.printStackTrace();
         }
 
-        sendObdDataValues.put("FuelType", findFuelTypeCommand.getFormattedResult());
         sendObdDataValues.put("AirFuelRation", airFuelRatioCommand.getAirFuelRatio());
-        sendObdDataValues.put("ConusmptionRate", consumptionRateCommand.getLitersPerHour());
         sendObdDataValues.put("MassAirFlow", massAirFlowCommand.getMAF());
         sendObdDataValues.put("ModuleVoltageCommand", moduleVoltageCommand.getVoltage());
         sendObdDataValues.put("SpeedCommand", speedCommand.getMetricSpeed());

@@ -52,6 +52,7 @@ public class SendFragment extends Fragment implements ActivityInterface {
     /**
      * Location updates will be saved to the database
      */
+
     private final LocationCallback mLocationCallback = new LocationCallback() {
 
         @Override
