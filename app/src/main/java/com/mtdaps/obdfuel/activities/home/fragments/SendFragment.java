@@ -167,13 +167,13 @@ public class SendFragment extends Fragment implements ActivityInterface {
                 if (vehicleNameEditText.getText().toString().trim().equals("")) {
                     vehicleName.setError(getResources().getString(R.string.vehicle_name_error));
                 } else {
-                    try {
+                   /* try {
                         OBDValues.init();
                     } catch (IOException e) {
                         Toast.makeText(getContext(), "OBD is not Responding. Try Again Later.", Toast.LENGTH_LONG).show();
                     } catch (InterruptedException e) {
                         Toast.makeText(getContext(), "OBD is not Responding. Try Again Later.", Toast.LENGTH_LONG).show();
-                    }
+                    }*/
                     switchVisibilityOnSendingObdData();
                     saveLocationAndObdToDatabase();
                 }

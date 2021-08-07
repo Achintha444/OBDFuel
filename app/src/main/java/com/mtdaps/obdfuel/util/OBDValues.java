@@ -111,6 +111,74 @@ public class OBDValues {
         return sendObdDataValues;
     }
 
+    public static String speedData() {
+        try {
+            speedCommand.run(OBDSocketHandler.getDefaultObdSocketHandler().getInputStream(), OBDSocketHandler.getDefaultObdSocketHandler().getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return Integer.toString(speedCommand.getMetricSpeed());
+    }
+
+    public static String rpmData() {
+        try {
+            rpmCommand.run(OBDSocketHandler.getDefaultObdSocketHandler().getInputStream(), OBDSocketHandler.getDefaultObdSocketHandler().getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return Integer.toString(rpmCommand.getRPM());
+    }
+
+    public static String airFuelRatioData() {
+        try {
+            airFuelRatioCommand.run(OBDSocketHandler.getDefaultObdSocketHandler().getInputStream(), OBDSocketHandler.getDefaultObdSocketHandler().getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return String.format("%.2f", airFuelRatioCommand.getAirFuelRatio());
+    }
+
+    public static String massAirFlowData() {
+        try {
+            massAirFlowCommand.run(OBDSocketHandler.getDefaultObdSocketHandler().getInputStream(), OBDSocketHandler.getDefaultObdSocketHandler().getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return  String.format("%.2f", massAirFlowCommand.getMAF());
+    }
+
+    public static String moduleVoltageData() {
+        try {
+            moduleVoltageCommand.run(OBDSocketHandler.getDefaultObdSocketHandler().getInputStream(), OBDSocketHandler.getDefaultObdSocketHandler().getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return  String.format("%.2f", moduleVoltageCommand.getVoltage());
+    }
+
+    public static String fuelConsumption(String speed,String massAirFlow){
+        Double vs = Double.parseDouble(speed);
+        Double maf = Double.parseDouble(massAirFlow);
+
+        Double fuelConsumption = (vs*7.718)/(maf*2.352);
+
+        return  String.format("%.2f", fuelConsumption);
+    }
 
     public static boolean getError() {
         return error;

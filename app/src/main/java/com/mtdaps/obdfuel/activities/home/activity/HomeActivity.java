@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
@@ -41,6 +42,7 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
 
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
+    private ConstraintLayout homeParentLayout;
 
     private LocationManager locationManager;
     private BluetoothAdapter bluetoothAdapter;
@@ -72,6 +74,8 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
         bundle = savedInstanceState;
 
         servicesCheckThread();
+
+        obdInitThread();
 
 
     }
@@ -118,7 +122,10 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
         toolbar = findViewById(R.id.bluetoothToolbar);
+        homeParentLayout = findViewById(R.id.home_parent_layout);
         flag = true;
+
+
     }
 
     @Override
@@ -194,6 +201,8 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
                                 e.printStackTrace();
                             }
                         }
+                        if(isBluetoothEnabled()){
+                        }
                         locaitonDialog.dismiss();
                     } else if (!isBluetoothEnabled()) {
                         Log.println(Log.INFO, "Home Activiy", "THREAD CHECK BLUETOOTH");
@@ -208,6 +217,7 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
                                 e.printStackTrace();
                             }
                         }
+                        obdInitThread();
                         bluetoothDialog.dismiss();
                     }
 
@@ -216,6 +226,29 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                }
+            }
+        };
+
+        thread.start();
+    }
+
+    private void obdInitThread(){
+        Thread thread = new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    while(!isLocationEnabled() && !isBluetoothEnabled()){
+                        // waiting until location and bluetooth is enabled.
+                    }
+                    OBDValues.init();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    UiUtil.showSnackbar(homeParentLayout,getBaseContext(),"OBD Connection Error, Try Again");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    UiUtil.showSnackbar(homeParentLayout,getBaseContext(),"OBD Connection Error, Try Again");
                 }
             }
         };

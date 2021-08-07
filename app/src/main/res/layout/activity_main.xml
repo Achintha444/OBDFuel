@@ -46,7 +46,7 @@
         android:layout_marginBottom="4dp"
         android:fontFamily="@font/nunito"
         android:letterSpacing="0"
-        android:text="Developed by Achintha and Yogya for their Final Year Project."
+        android:text="Final Year Project CSE 17"
         android:textAlignment="center"
         android:textColor="@color/purple_500"
         android:textSize="12sp"
