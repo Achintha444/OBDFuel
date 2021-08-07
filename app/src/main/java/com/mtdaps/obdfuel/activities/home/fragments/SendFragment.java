@@ -58,7 +58,7 @@ public class SendFragment extends Fragment implements ActivityInterface {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             Location mLastLocation = locationResult.getLastLocation();
-            Log.println(Log.INFO,"SendFragemnet","lattitude : "+Double.toString(mLastLocation.getLatitude())+"longtitude : "+Double.toString(mLastLocation.getLongitude()));
+            Log.println(Log.INFO,"SendFragemnet","lattitude : "+ mLastLocation.getLatitude() +"longtitude : "+ mLastLocation.getLongitude());
             sentObdData(mLastLocation);
         }
     };
