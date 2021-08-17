@@ -175,7 +175,7 @@ public class OBDValues {
         Double afr = Double.parseDouble(airFuelRatio);
         Double maf = Double.parseDouble(massAirFlow);
 
-        Double fuelConsumption = (maf*3600/afr*820);
+        Double fuelConsumption = (maf*3600/(afr*820));
 
         return  String.format("%.2f", fuelConsumption);
     }
