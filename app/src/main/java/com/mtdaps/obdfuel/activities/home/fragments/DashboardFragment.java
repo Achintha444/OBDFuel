@@ -84,9 +84,9 @@ public class DashboardFragment extends Fragment implements ActivityInterface {
                     speed = OBDValues.speedData();
                     rpm = OBDValues.rpmData();
                     maf = OBDValues.massAirFlowData();
-                    fuelConsumption = OBDValues.fuelConsumption(speed, maf);
                     batteryVoltage = OBDValues.moduleVoltageData();
                     airFuelRatio = OBDValues.airFuelRatioData();
+                    fuelConsumption = OBDValues.fuelConsumption(airFuelRatio, maf);
 
                     updateTextViews(speed, rpm, fuelConsumption, airFuelRatio, batteryVoltage, maf);
 

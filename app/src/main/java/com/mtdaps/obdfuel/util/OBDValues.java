@@ -171,11 +171,11 @@ public class OBDValues {
         return  String.format("%.2f", moduleVoltageCommand.getVoltage());
     }
 
-    public static String fuelConsumption(String speed,String massAirFlow){
-        Double vs = Double.parseDouble(speed);
+    public static String fuelConsumption(String airFuelRatio,String massAirFlow){
+        Double afr = Double.parseDouble(airFuelRatio);
         Double maf = Double.parseDouble(massAirFlow);
 
-        Double fuelConsumption = (vs*7.718)/(maf*2.352);
+        Double fuelConsumption = (maf*3600/afr*820);
 
         return  String.format("%.2f", fuelConsumption);
     }

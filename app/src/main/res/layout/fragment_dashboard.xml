@@ -42,6 +42,20 @@
                             android:id="@+id/speed_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/nunito_sans_extralight"
+                            android:text="Km/h"
+                            android:textAlignment="center"
+                            android:textColor="@color/purple_500"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/speed_text_value" />
+
+                        <TextView
+                            android:id="@+id/speed_text2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginBottom="16dp"
                             android:fontFamily="@font/nunito_light"
                             android:text="Speed"
@@ -98,6 +112,20 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
+
+                        <TextView
+                            android:id="@+id/rpm_text2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/nunito_light"
+                            android:text="rpm"
+                            android:textAlignment="center"
+                            android:textColor="@color/purple_200"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/rpm_text_value" />
 
                         <TextView
                             android:id="@+id/rpm_text_value"
@@ -199,7 +227,23 @@
                             android:textSize="20sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.487"
                             app:layout_constraintStart_toStartOf="parent" />
+
+                        <TextView
+                            android:id="@+id/fuel_consumption_text3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/nunito_sans_extralight"
+                            android:text="L/h"
+                            android:textAlignment="center"
+                            android:textColor="@color/purple_500"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.487"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/fuel_consumption_text_value" />
 
                         <TextView
                             android:id="@+id/fuel_consumption_text_value"
@@ -257,6 +301,21 @@
                             app:layout_constraintStart_toStartOf="parent" />
 
                         <TextView
+                            android:id="@+id/battery_voltage_text4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/nunito_sans_extralight"
+                            android:text="Volt"
+                            android:textAlignment="center"
+                            android:textColor="@color/purple_500"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.508"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/battery_voltage_text_value" />
+
+                        <TextView
                             android:id="@+id/battery_voltage_text_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -302,6 +361,20 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
+
+                        <TextView
+                            android:id="@+id/maf_text2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/nunito_sans_extralight"
+                            android:text="g/s"
+                            android:textAlignment="center"
+                            android:textColor="@color/purple_200"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/maf_text_value" />
 
                         <TextView
                             android:id="@+id/maf_text_value"
