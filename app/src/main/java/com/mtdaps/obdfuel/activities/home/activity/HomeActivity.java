@@ -154,9 +154,6 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
                         tab.setText("Dashboard");
                         tab.setIcon(R.drawable.ic_sharp_dashboard_24);
 
-                    } else {
-                        tab.setText("Send Data");
-                        tab.setIcon(R.drawable.ic_baseline_cloud_upload_24);
                     }
 
                 }
@@ -187,7 +184,7 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
             public void run() {
                 while (flag) {
                     //Log.println(Log.INFO, "Home Activiy", "THREAD CHECK ");
-                    if (!isLocationEnabled()) {
+                    /*if (!isLocationEnabled()) {
                         Log.println(Log.INFO, "Home Activiy", "THREAD CHECK LOCATION");
 
                         ContextCompat.getMainExecutor(HomeActivity.this).execute(() -> {
@@ -204,7 +201,7 @@ public class HomeActivity extends AppCompatActivity implements ActivityInterface
                         if(isBluetoothEnabled()){
                         }
                         locaitonDialog.dismiss();
-                    } else if (!isBluetoothEnabled()) {
+                    } */ if (!isBluetoothEnabled()) {
                         Log.println(Log.INFO, "Home Activiy", "THREAD CHECK BLUETOOTH");
                         //runOnUiThread(() -> bluetoothDialog.show());
                         ContextCompat.getMainExecutor(HomeActivity.this).execute(() -> {

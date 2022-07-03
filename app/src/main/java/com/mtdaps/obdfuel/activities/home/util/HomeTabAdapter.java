@@ -23,8 +23,6 @@ public class HomeTabAdapter extends FragmentStateAdapter{
         switch (position) {
             case 0:
                 return new DashboardFragment();
-            case 1:
-                return new SendFragment();
 
         }
         return null;
@@ -32,6 +30,6 @@ public class HomeTabAdapter extends FragmentStateAdapter{
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 1;
     }
 }

@@ -74,13 +74,6 @@
             android:icon="@drawable/ic_sharp_dashboard_24"
             android:text="Dashboard" />
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/sendData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_baseline_cloud_upload_24"
-            android:text="Send Data" />
-
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2

@@ -286,7 +286,7 @@ public class BluetoothActivity extends AppCompatActivity implements ActivityInte
 
             if (!isLocationEnabled()) {
                 // notify user
-                dialogBuilder = UiUtil.createWarningAlertDialogBuilder(bundle, this, "Enable Location", "Location access is required for Bluetooth Connection.", "Enable Locaiton", Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                dialogBuilder = UiUtil.createWarningAlertDialogBuilder(bundle, this, "Enable Location", "With the new android versions, OBDFuel requires location access to discover bluetooth devices.", "Enable Locaiton", Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 dialog = dialogBuilder.create();
                 // Used to check if Location is on
                 Thread thread = new Thread() {
